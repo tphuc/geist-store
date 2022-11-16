@@ -6,11 +6,13 @@ import Image from "next/image";
 
 
 
-const ImageSlides = () => {
+const ImageSlides = ({ css, ...props }) => {
     return <Box css={{
         position: "relative",
         width: 320,
-    }}>
+        scrollPaddingTop:1000,
+        ...css
+    }}  {...props}>
         <Box css={{
             display: "flex",
             position: 'absolute',
@@ -42,6 +44,7 @@ const ImageSlides = () => {
             position:'relative',
             display: 'flex',
             overflowX: "auto",
+            background: sand.sand3,
             'scroll-snap-type': 'x mandatory',
             'scroll-behavior': 'smooth',
             '-webkit-overflow-scrolling': 'touch',
@@ -77,7 +80,7 @@ const ImageSlides = () => {
 
                 }}>
                 <Image
-                    src="/lw_black_grain.jpeg"
+                    src="/wallet1.png"
                     width={320}
                     height={320}
 
@@ -101,7 +104,7 @@ const ImageSlides = () => {
 
                 }}>
                 <Image
-                    src="/lw_black_grain.jpeg"
+                    src="/wallet1.png"
                     width={320}
                     height={320}
 
@@ -125,7 +128,7 @@ const ImageSlides = () => {
 
                 }}>
                 <Image
-                    src="/lw_black_grain.jpeg"
+                    src="/wallet1.png"
                     width={320}
                     height={320}
 

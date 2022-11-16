@@ -9,13 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.10",
+    "@paypal/react-paypal-js": "^7.8.1",
     "@radix-ui/colors": "^0.1.8",
+    "@radix-ui/react-accordion": "^1.0.1",
+    "@radix-ui/react-dialog": "^1.0.2",
+    "@radix-ui/react-radio-group": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.0.1",
     "@stitches/react": "^1.2.8",
-    "@tabler/icons": "^1.109.0",
+    "@tabler/icons": "^1.110.0",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.1",
+    "framer-motion": "^7.6.5",
     "next": "13.0.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-fast-marquee": "^1.3.5",
+    "react-hook-form": "^7.39.4",
+    "react-intersection-observer": "^9.4.0",
+    "react-use-cart": "^1.13.0",
+    "use-shopping-cart": "^3.1.3",
+    "yup": "^0.32.11"
   }
 }
