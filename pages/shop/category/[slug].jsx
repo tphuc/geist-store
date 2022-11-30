@@ -92,22 +92,23 @@ export default function Page({ data }) {
                 }
             </div>
             <Box css={{ scrollPaddingTop: 200 }}>
+                {JSON.stringify(products)}
                 {/* <ImageSlides/> */}
                 <Box style={{
                     display: "grid", gap: 1,
                     // background:sand.sand11, 
                     gridTemplateColumns: "repeat(auto-fit, minmax(320px, 50vw))"
                 }}>
-                    {
+                    {/* {
                         products.length > 0 ? products.map((item) => <div key={item.id} style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
                             <div style={{ width: "100%", background: "rgba(200,200,200,0.2)", flexWrap: "wrap", display: "flex", justifyContent: "space-between", top: 0, left: 0, zIndex: 1, padding: 10, fontFamily: "'Manrope', serif" }}>
                                 <span>{item?.vi_title}</span>
                                 <span>400.000$</span>
                             </div>
-                            {/* <ImageCarousel style={{ flex: 1, background: sand.sand3 }} /> */}
+                            <ImageCarousel style={{ flex: 1, background: sand.sand3 }} />
                         </div>)
                         : null
-                    }
+                    } */}
 
 
 
@@ -184,7 +185,7 @@ export async function getStaticProps({ params }) {
     const categories = await axiosInstance.get(`/api/v1/categories`).then(res => res.data)
     if (slug == 'all') {
         const products = await axiosInstance.get(`/api/v1/products`).then(res => res.data)
-        console.log( categories,products)
+
         return {
             props: {
                 slug,
@@ -200,7 +201,7 @@ export async function getStaticProps({ params }) {
         const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
 
         const products = await axiosInstance.get(`/api/v1/products?categoryId=${category?.id}`).then(res => res.data)
-        console.log( categories,products, category)
+
         return {
             props: {
                 slug,
