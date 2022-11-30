@@ -140,7 +140,8 @@ export default function Page() {
                     <p style={{ fontWeight: 300, padding: 0, margin: 0 }}>Color: {selected.color}</p>
                     <Box style={{ display: "flex", flexDirection: "row", gap: 5, marginTop: 5, }}>
 
-                        {data?.variants?.map((item) => <Box
+                        {data?.variants?.map((item, id) => <Box
+                            key={id}
                             onClick={() => setSelected(item) }
                             style={{
                                 width: 30, 
