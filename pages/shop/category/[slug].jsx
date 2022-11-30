@@ -78,7 +78,7 @@ export default function Page({ data }) {
                     color: slug ? 'white' : sand.sand12,
                     // borderRadius: 50
                 }}>All</StyledLink>
-                {
+                {/* {
                     categories?.map((item) => <StyledLink key={item?.id} href={{
                         pathname: `/shop/category/${item.slug}`
                     }} style={{
@@ -88,7 +88,7 @@ export default function Page({ data }) {
                         color: item?.slug == slug ? 'white' : sand.sand12,
                         // borderRadius: 50
                     }}>{item.title}</StyledLink>)
-                }
+                } */}
             </div>
             <Box css={{ scrollPaddingTop: 200 }}>
                 {/* <ImageSlides/> */}
@@ -97,7 +97,7 @@ export default function Page({ data }) {
                     // background:sand.sand11, 
                     gridTemplateColumns: "repeat(auto-fit, minmax(320px, 50vw))"
                 }}>
-                    {
+                    {/* {
                         products?.map((item) => <div key={item.id} style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
                             <div style={{ width: "100%", background: "rgba(200,200,200,0.2)", flexWrap: "wrap", display: "flex", justifyContent: "space-between", top: 0, left: 0, zIndex: 1, padding: 10, fontFamily: "'Manrope', serif" }}>
                                 <span>{item.vi_title}</span>
@@ -105,7 +105,7 @@ export default function Page({ data }) {
                             </div>
                             <ImageCarousel style={{ flex: 1, background: sand.sand3 }} />
                         </div>)
-                    }
+                    } */}
 
 
 
