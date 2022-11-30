@@ -92,14 +92,14 @@ export default function Page({ data }) {
                 }
             </div>
             <Box css={{ scrollPaddingTop: 200 }}>
-                {JSON.stringify(products)}
+              
                 {/* <ImageSlides/> */}
                 <Box style={{
                     display: "grid", gap: 1,
                     // background:sand.sand11, 
-                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 50vw))"
+                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))"
                 }}>
-                    {/* {
+                    {
                         products.length > 0 ? products.map((item) => <div key={item.id} style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
                             <div style={{ width: "100%", background: "rgba(200,200,200,0.2)", flexWrap: "wrap", display: "flex", justifyContent: "space-between", top: 0, left: 0, zIndex: 1, padding: 10, fontFamily: "'Manrope', serif" }}>
                                 <span>{item?.vi_title}</span>
@@ -108,7 +108,7 @@ export default function Page({ data }) {
                             <ImageCarousel style={{ flex: 1, background: sand.sand3 }} />
                         </div>)
                         : null
-                    } */}
+                    }
 
 
 
@@ -174,7 +174,7 @@ export async function getStaticPaths() {
 
     // We'll pre-render only these paths at build time.
     // { fallback: false } means other routes should 404.
-    return { paths, fallback: true }
+    return { paths, fallback: false }
 }
 
 // This also gets called at build time
