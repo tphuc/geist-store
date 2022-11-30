@@ -181,7 +181,7 @@ export async function getStaticProps({ params }) {
         else {
             // const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
 
-            const products = await axiosInstance.get(`/api/v1/products`).then(res => res.data)
+            const products = await fetch(`https://geist-node.vercel.app/api/v1/products`).then(res => res.json())
             console.log(products)
             return {
                 props: {
