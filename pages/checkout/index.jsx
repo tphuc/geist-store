@@ -129,15 +129,6 @@ const StyledChevron = styled(IconChevronDown, {
 });
 
 
-const AccordionTrigger = React.forwardRef(({ children, ...props }, forwardedRef) => (
-
-    <AccordionToggle {...props} ref={forwardedRef}>
-        {children}
-        <StyledChevron stroke={1} aria-hidden />
-    </AccordionToggle>
-
-));
-
 
 
 
