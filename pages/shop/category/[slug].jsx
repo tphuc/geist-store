@@ -54,7 +54,7 @@ const Button = styled('button', {
 
 export default function Page({ data }) {
     const { slug } = useRouter().query
-    const { categories, products} = data;
+    const { categories, products } = data;
 
 
     return <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
@@ -68,24 +68,24 @@ export default function Page({ data }) {
                 // paddingTop: '0.5em', paddingBottom: '0.5em', 
                 flexDirection: 'row', alignItems: 'center',
             }}>
-                   <StyledLink href={{
+                <StyledLink href={{
                     pathname: '/shop/category/all'
                 }} style={{
                     padding: "10px 20px",
                     borderLeft: "1px solid #111",
-                  
-                    background:  slug === 'all' ? sand.sand12 : sand.sand4,
+
+                    background: slug === 'all' ? sand.sand12 : sand.sand4,
                     color: slug ? 'white' : sand.sand12,
                     // borderRadius: 50
                 }}>All</StyledLink>
                 {
-                    categories?.map((item) =>  <StyledLink  key={item?.id} href={{
+                    categories?.map((item) => <StyledLink key={item?.id} href={{
                         pathname: `/shop/category/${item.slug}`
                     }} style={{
                         padding: "10px 20px",
                         borderLeft: "1px solid #111",
-                        background:  item?.slug == slug ? sand.sand12 : sand.sand4,
-                        color:  item?.slug == slug ? 'white' : sand.sand12,
+                        background: item?.slug == slug ? sand.sand12 : sand.sand4,
+                        color: item?.slug == slug ? 'white' : sand.sand12,
                         // borderRadius: 50
                     }}>{item.title}</StyledLink>)
                 }
@@ -98,15 +98,15 @@ export default function Page({ data }) {
                     gridTemplateColumns: "repeat(auto-fit, minmax(320px, 50vw))"
                 }}>
                     {
-                        products?.map((item) =>  <div key={item.id} style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
-                        <div style={{ width: "100%", background: "rgba(200,200,200,0.2)", flexWrap: "wrap", display: "flex", justifyContent: "space-between", top: 0, left: 0, zIndex: 1, padding: 10, fontFamily: "'Manrope', serif" }}>
-                            <span>{item.vi_title}</span>
-                            <span>400.000$</span>
-                        </div>
-                        <ImageCarousel style={{ flex: 1, background: sand.sand3 }} />
-                    </div>)
+                        products?.map((item) => <div key={item.id} style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
+                            <div style={{ width: "100%", background: "rgba(200,200,200,0.2)", flexWrap: "wrap", display: "flex", justifyContent: "space-between", top: 0, left: 0, zIndex: 1, padding: 10, fontFamily: "'Manrope', serif" }}>
+                                <span>{item.vi_title}</span>
+                                <span>400.000$</span>
+                            </div>
+                            <ImageCarousel style={{ flex: 1, background: sand.sand3 }} />
+                        </div>)
                     }
-                   
+
 
 
                     {/* <div style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
@@ -163,11 +163,11 @@ export async function getStaticPaths() {
     const categories = await axiosInstance.get('/api/v1/categories').then(res => res.data)
 
     // Get the paths we want to pre-render based on posts
-    const paths = [...categories, { slug:"all"}].map((item) => ({
+    const paths = [...categories, { slug: "all" }].map((item) => ({
         params: { slug: item.slug },
     }))
 
-    
+
 
     // We'll pre-render only these paths at build time.
     // { fallback: false } means other routes should 404.
@@ -180,26 +180,41 @@ export async function getStaticProps({ params }) {
     // If the route is like /posts/1, then params.id is 1
     const { slug } = params
     const categories = await axiosInstance.get(`/api/v1/categories`).then(res => res.data)
-    const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
-
-    let options = {
-        params: {
-            
+    if (slug == 'all') {
+        const products = await axiosInstance.get(`/api/v1/products`).then(res => res.data)
+        return {
+            props: {
+                slug,
+                data: {
+                    categories,
+                    products
+                }
+            },
+            revalidate: 10
         }
     }
-    if(category?.id){
-        options.params.categoryId = category?.id
-    }
-    const products = await axiosInstance.get(`/api/v1/products`, options).then(res => res.data)
+    else {
+        const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
+        let options = {
+            params: {
 
-    return {
-        props: {
-            slug,
-            data: {
-                categories,
-                products
             }
-        },
-        revalidate:true
+        }
+        if (category?.id) {
+            options.params.categoryId = category?.id
+        }
+        const products = await axiosInstance.get(`/api/v1/products`, options).then(res => res.data)
+
+        return {
+            props: {
+                slug,
+                data: {
+                    categories,
+                    products
+                }
+            },
+            revalidate: 10
+        }
     }
+
 }
