@@ -7,5 +7,5 @@ export function middleware(request) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/shop/category'],
+  matcher: ['/shop/category', '/en/shop/category/all', '/vi/shop/category/all'],
 }
