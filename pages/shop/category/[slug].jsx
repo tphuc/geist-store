@@ -55,6 +55,7 @@ const Button = styled('button', {
 export default function Page({ data }) {
     const { slug } = useRouter().query
     const { categories, products } = data;
+    console.log(categories, products)
 
 
     return <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
