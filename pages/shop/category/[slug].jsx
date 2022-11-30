@@ -181,11 +181,16 @@ export async function getStaticProps({ params }) {
     const { slug } = params
     const categories = await axiosInstance.get(`/api/v1/categories`).then(res => res.data)
     const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
-    const products = await axiosInstance.get(`/api/v1/products`, {
+
+    let options = {
         params: {
-            categoryId: category.id
+            
         }
-    }).then(res => res.data)
+    }
+    if(category?.id){
+        options.params.categoryId = category?.id
+    }
+    const products = await axiosInstance.get(`/api/v1/products`, options).then(res => res.data)
 
     return {
         props: {
