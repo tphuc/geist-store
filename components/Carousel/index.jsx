@@ -74,7 +74,7 @@ export default function ImageCarousel({
         <div ref={sliderContainerRef}onScroll={(e) => handleScroll(e)} className="carousel" >
             {
                 images?.map((item, id) => <div key={id} className='carousel-item' >
-                    <img style={{ width:"100%", minWidth:300, minHeight:300 }}  src={item.url} />
+                    <img alt='' style={{ width:"100%", minWidth:300, minHeight:300 }}  src={item.url} />
                 </div>)
             }
         </div>
@@ -82,7 +82,7 @@ export default function ImageCarousel({
         <div style={{ display: "flex", position: "absolute", bottom:-1, left:-1, maxWidth: '100%', flexDirection: "row", border:"1px solid #888", background:sand.sand1 }}>
             {
                 images?.map((item, id) => <div onClick={() => scrollToImage(id)} style={{ cursor: "pointer", width:40, height:40, margin:-1,  border: activeImg == id ? `1px solid #111` : '1px solid transparent', }} key={id} >
-                    <img style={{   width:"100%", height:"100%", objectPosition: 'center center', objectFit: "cover" }} src={item.url} />
+                    <img alt='' style={{   width:"100%", height:"100%", objectPosition: 'center center', objectFit: "cover" }} src={item.url} />
                 </div>)
             }
         </div>

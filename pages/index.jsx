@@ -159,6 +159,7 @@ export default function Page() {
                             maxWidth: "min(50vh, 90vw)",
                         }}>
                             <img
+                                alt=''
                                 src="/wallet1.png"
                                 style={{ objectFit: 'cover', width: '100%', height: "100%" }}
                             />
@@ -179,6 +180,7 @@ export default function Page() {
                             maxWidth: "min(50vh, 90vw)",
                         }}>
                             <img
+                                alt=''
                                 src="/lw_black.png"
                                 style={{ objectFit: 'cover', width: '100%', height: "100%" }}
                             />

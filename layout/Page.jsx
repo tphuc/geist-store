@@ -113,7 +113,7 @@ export default function PageLayout({ children }) {
                         overflow: "hidden"
                       }} key={item.id}>
                         <Box style={{ flex: 1, maxWidth: 100, minWidth: 50 }}>
-                          <img style={{ backgroundColor: sand.sand4, border: "1px solid #111", width: "100%" }} src={item?.image}></img>
+                          <img alt='' style={{ backgroundColor: sand.sand4, border: "1px solid #111", width: "100%" }} src={item?.image}></img>
                         </Box>
                         <Box style={{ flex: 5, display: "flex", flexDirection: "column", gap: 2, }}>
                           <h4 style={{ margin: 0, whiteSpace: 'nowrap', }}>{item?.name}</h4>

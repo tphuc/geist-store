@@ -312,7 +312,7 @@ export default function Page() {
                         overflow: "hidden"
                     }} key={item.id}>
                         <Box style={{ flex: 1, maxWidth: 80, minWidth: 50, borderRadius: 3, }}>
-                            <img style={{ backgroundColor: sand.sand4, borderRadius: 3, border: "1px solid #333", width: "100%" }} src={item?.image}></img>
+                            <img alt='' style={{ backgroundColor: sand.sand4, borderRadius: 3, border: "1px solid #333", width: "100%" }} src={item?.image}></img>
                         </Box>
                         <Box style={{ flex: 5, display: "flex", flexDirection: "column", gap: 2, }}>
                             <h4 style={{ margin: 0, whiteSpace: 'nowrap', }}>{item?.name}</h4>

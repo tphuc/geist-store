@@ -290,11 +290,11 @@ export default function Page() {
                 </Box>
                 <Box style={{ flex: 1, background: sand.sand1, minWidth: 300, padding: "2%", fontFamily: "'Manrope', serif" }}>
                     <h1 style={{ fontWeight: 300, fontFamily: "'Lora', serif", fontSize: "2em", margin: 0, padding: 0 }}><i>Why us</i></h1>
-                    <p >Men's accessories have come a long way in recent years. They are not just simply functional items - they've become style statements in their own right. <br />
-                        We provides an alternative to the traditional wallet.
+                    <p >{`Men's accessories have come a long way in recent years. They are not just simply functional items - they've become style statements in their own right. <br />
+                        We provides an alternative to the traditional wallet.`}
 
-                        We believe in the power of simplicity and clarity, and we embody these values in every aspect of our work. Our goal is to create products that are not only well-crafted and functional, but also beautiful and timeless.
-                        That's why we're committed to using the finest materials and craftsmanship to create products that will last a lifetime.
+                        {`We believe in the power of simplicity and clarity, and we embody these values in every aspect of our work. Our goal is to create products that are not only well-crafted and functional, but also beautiful and timeless.
+                        That's why we're committed to using the finest materials and craftsmanship to create products that will last a lifetime.`}
                     </p>
                 </Box>
             </Box>
