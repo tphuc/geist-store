@@ -181,37 +181,51 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
     // params contains the post `id`.
     // If the route is like /posts/1, then params.id is 1
-    const { slug } = params
-    const categories = await axiosInstance.get(`/api/v1/categories`).then(res => res.data)
-    if (slug == 'all') {
-        const products = await axiosInstance.get(`/api/v1/products`).then(res => res.data)
+    try {
+        const { slug } = params
+        const categories = await axiosInstance.get(`/api/v1/categories`).then(res => res.data)
+        if (slug == 'all') {
+            const products = await axiosInstance.get(`/api/v1/products`).then(res => res.data)
 
+            return {
+                props: {
+                    slug,
+                    data: {
+                        categories,
+                        products
+                    }
+                },
+                revalidate: 10
+            }
+        }
+        else {
+            const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
+
+            const products = await axiosInstance.get(`/api/v1/products?categoryId=${category?.id}`).then(res => res.data)
+
+            return {
+                props: {
+                    slug,
+                    data: {
+                        categories,
+                        products
+                    }
+                },
+                revalidate: 10
+            }
+        }
+    } catch (e) {
+        console.log(e)
         return {
             props: {
                 slug,
                 data: {
                     categories,
-                    products
+                    products: []
                 }
             },
             revalidate: 10
         }
-    }
-    else {
-        const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
-
-        const products = await axiosInstance.get(`/api/v1/products?categoryId=${category?.id}`).then(res => res.data)
-
-        return {
-            props: {
-                slug,
-                data: {
-                    categories,
-                    products
-                }
-            },
-            revalidate: 10
-        }
-    }
+     }
 
 }
