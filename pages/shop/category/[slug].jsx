@@ -79,7 +79,7 @@ export default function Page({ data }) {
                     color: slug ? 'white' : sand.sand12,
                     // borderRadius: 50
                 }}>All</StyledLink>
-                {/* {
+                {
                     categories?.map((item) => <StyledLink key={item?.id} href={{
                         pathname: `/shop/category/${item.slug}`
                     }} style={{
@@ -89,7 +89,7 @@ export default function Page({ data }) {
                         color: item?.slug == slug ? 'white' : sand.sand12,
                         // borderRadius: 50
                     }}>{item.title}</StyledLink>)
-                } */}
+                }
             </div>
             <Box css={{ scrollPaddingTop: 200 }}>
                 {/* <ImageSlides/> */}
@@ -197,16 +197,9 @@ export async function getStaticProps({ params }) {
     }
     else {
         const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
-        let options = {
-            params: {
 
-            }
-        }
-        if (category?.id) {
-            options.params.categoryId = category?.id
-        }
-        const products = await axiosInstance.get(`/api/v1/products`, options).then(res => res.data)
-        console.log( categories,products)
+        const products = await axiosInstance.get(`/api/v1/products?categoryId=${category?.id}`).then(res => res.data)
+        console.log( categories,products, category)
         return {
             props: {
                 slug,
