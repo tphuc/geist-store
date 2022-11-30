@@ -165,7 +165,8 @@ export async function getStaticProps({ params }) {
         const { slug } = params
         const categories = await axiosInstance.get(`/api/v1/categories`).then(res => res.data)
         if (slug == 'all') {
-            const products = await axiosInstance.get(`/api/v1/products`).then(res => res.data)
+            const products = await fetch(`https://geist-node.vercel.app/api/v1/products`).then(res => res.json())
+
 
             return {
                 props: {
@@ -179,9 +180,8 @@ export async function getStaticProps({ params }) {
             }
         }
         else {
-            // const category = await axiosInstance.get(`/api/v1/categories/query?slug=${slug}`).then(res => res.data)
-
-            const products = await fetch(`https://geist-node.vercel.app/api/v1/products`).then(res => res.json())
+            const category = await fetch(`https://geist-node.vercel.app/api/v1/categories/query?slug=${slug}`).then(res => res.json())
+            const products = await fetch(`https://geist-node.vercel.app/api/v1/products?categoryId=${category.id}`).then(res => res.json())
             console.log(products)
             return {
                 props: {
