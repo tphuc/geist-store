@@ -15,6 +15,9 @@ import { useRouter } from 'next/router';
 import ImageCarousel from 'components/Carousel';
 import Footer from 'components/Footer';
 import { axiosInstance } from 'axios.config';
+import { baseURL } from 'fetch.config';
+import React from 'react';
+
 
 
 
@@ -55,7 +58,10 @@ const Button = styled('button', {
 export default function Page({ data }) {
     const { slug } = useRouter().query
     const { categories, products } = data;
-    console.log(categories, products)
+
+    // console.log(products)
+
+
 
 
     return <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
@@ -63,63 +69,72 @@ export default function Page({ data }) {
         {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
         <Box css={{ position: "relative", }} >
             <div style={{
-                display: 'flex', fontFamily: "'Manrope', serif", paddingLeft: "4%",
+                display: 'flex', fontFamily: "'Manrope', serif",
+                // paddingLeft: "4%",
                 position: "sticky",
-                top: 40, zIndex: 10, background: sand.sand2, borderBottom: `1px solid ${sand.sand11}`,
+                top: 40, zIndex: 10, background: sand.sand3,
+                borderBottom: `1px solid ${sand.sand11}`,
                 // paddingTop: '0.5em', paddingBottom: '0.5em', 
                 flexDirection: 'row', alignItems: 'center',
             }}>
                 <StyledLink href={{
                     pathname: '/shop/category/all'
                 }} style={{
-                    padding: "10px 20px",
+                    padding: "8px 15px",
                     borderLeft: "1px solid #111",
 
-                    background: slug === 'all' ? sand.sand12 : sand.sand4,
-                    color: slug ? 'white' : sand.sand12,
+                    background: slug === 'all' ? sand.sand12 : sand.sand3,
+                    color: slug === 'all' ? 'white' : sand.sand12,
                     // borderRadius: 50
                 }}>All</StyledLink>
-                {
-                    categories?.map((item) => <StyledLink key={item?.id} href={{
-                        pathname: `/shop/category/${item.slug}`
-                    }} style={{
-                        padding: "10px 20px",
-                        borderLeft: "1px solid #111",
-                        background: item?.slug == slug ? sand.sand12 : sand.sand4,
-                        color: item?.slug == slug ? 'white' : sand.sand12,
-                        // borderRadius: 50
-                    }}>{item.title}</StyledLink>)
-                }
+                <div style={{ display: "flex", flexDirection: "row", overflowX: "scroll" }}>
+                    {
+                        categories?.map((item) => <StyledLink key={item?.id} href={{
+                            pathname: `/shop/category/${item.slug}`
+                        }} style={{
+                            padding: "8px 15px",
+                            whiteSpace: "nowrap",
+                            borderRight: `1px solid ${sand.sand11}`,
+                            background: item?.slug == slug ? sand.sand12 : sand.sand3,
+                            color: item?.slug == slug ? 'white' : sand.sand12,
+                            // borderRadius: 50
+                        }}>{item.title}</StyledLink>)
+                    }
+
+                </div>
             </div>
-            <Box css={{ scrollPaddingTop: 200 }}>
-                {JSON.stringify(products)}
+            <Box style={{ position: "relative" }} css={{ scrollPaddingTop: 200 }}>
                 {/* <ImageSlides/> */}
                 <Box style={{
                     display: "grid", gap: 1,
-                    // background:sand.sand11, 
-                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))"
+                    background:sand.sand3, 
+                    gridTemplateColumns: "repeat(auto-fit, minmax(330px, 33vw))"
                 }}>
-                    { products?.length > 0 ? products?.map((item, id) => <div key={item?.id} style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
-                            <div style={{ width: "100%", background: "rgba(200,200,200,0.2)", flexWrap: "wrap", display: "flex", justifyContent: "space-between", top: 0, left: 0, zIndex: 1, padding: 10, fontFamily: "'Manrope', serif" }}>
-                                <span>{item?.vi_title}</span>
-                                <span>400.000$</span>
-                            </div>
-                            <ImageCarousel style={{ flex: 1, background: sand.sand3 }} />
-                        </div>)
-                        : null
-                    }
+                    {products?.map((item, id) => <div key={item?.id} style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
+                        <div style={{
+                            // position:"sticky",
+                            // top:78,
+                            position:"relative",
+                            borderBottom: `1px solid ${sand.sand12}`,
+                            width: "100%",
+                            background: sand.sand3,
+                            flexWrap: "wrap", display: "flex", justifyContent: "space-between",
+                            zIndex: 1, padding: 10, fontFamily: "'Manrope', serif"
+                        }}>
+                            <span>{item?.vi_title}</span>
+                            <span>400.000$</span>
+                        </div>
+                        <div style={{ flex: 1, minWidth: 'max(330px, 33vw)', minHeight:'max(330px, 33vw)', position: "relative" }}>
+                            <Image alt='logo' fill src={item?.logo} />
+                        </div>
+
+                    </div>)}
                 </Box>
 
             </Box>
         </Box>
 
-
-
-
-
-
         <Box style={{ display: "flex", flexDirection: "column" }}>
-
             <Footer />
         </Box>
 
@@ -145,15 +160,26 @@ export async function getStaticPaths() {
     const categories = await axiosInstance.get('/api/v1/categories').then(res => res.data)
 
     // Get the paths we want to pre-render based on posts
-    const paths = [...categories, { slug: "all" }].map((item) => ({
-        params: { slug: item.slug },
-    }))
+    let paths = [];
+
+    categories.forEach((item, i) => {
+        paths.push({ params: { slug: item.slug }, locale: "en" })
+        paths.push({ params: { slug: item.slug }, locale: "vi" })
+    })
+
+
 
 
 
     // We'll pre-render only these paths at build time.
     // { fallback: false } means other routes should 404.
-    return { paths, fallback: false }
+    return {
+        paths: [
+            ...paths,
+            { params: { slug: 'all' }, locale: 'en' },
+            { params: { slug: 'all' }, locale: 'vi' },
+        ], fallback: false
+    }
 }
 
 // This also gets called at build time
@@ -162,9 +188,9 @@ export async function getStaticProps({ params }) {
     // If the route is like /posts/1, then params.id is 1
     try {
         const { slug } = params
-        const categories = await axiosInstance.get(`/api/v1/categories`).then(res => res.data)
+        const categories = await fetch(`${baseURL}/api/v1/categories`).then(res => res.json())
         if (slug == 'all') {
-            const products = await fetch(`https://geist-node.vercel.app/api/v1/products`).then(res => res.json())
+            const products = await fetch(`${baseURL}/api/v1/products`).then(res => res.json())
 
 
             return {
@@ -179,9 +205,9 @@ export async function getStaticProps({ params }) {
             }
         }
         else {
-            const category = await fetch(`https://geist-node.vercel.app/api/v1/categories/query?slug=${slug}`).then(res => res.json())
-            const products = await fetch(`https://geist-node.vercel.app/api/v1/products?categoryId=${category.id}`).then(res => res.json())
-            console.log(products)
+            const category = await fetch(`${baseURL}/api/v1/categories/query?slug=${slug}`).then(res => res.json())
+            const products = await fetch(`${baseURL}/api/v1/products?categoryId=${category.id}`).then(res => res.json())
+
             return {
                 props: {
                     slug,
@@ -194,7 +220,7 @@ export async function getStaticProps({ params }) {
             }
         }
     } catch (e) {
-        console.log(e)
+
         return {
             props: {
                 slug,
@@ -205,6 +231,7 @@ export async function getStaticProps({ params }) {
             },
             revalidate: 10
         }
-     }
+    }
 
 }
+

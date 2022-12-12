@@ -1,14 +1,15 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const { i18n } = require('./i18n.config')
+
+module.exports = {
   reactStrictMode: true,
-  i18n: {
-    locales: [ 'en', 'vi'],
-    defaultLocale: 'en',
-  },
   trailingSlash: true,
+    i18n,
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+      },
+    ],
   }
 }
-
-module.exports = nextConfig

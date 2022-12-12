@@ -60,6 +60,11 @@ export default function AnimatedTitle({
     }, [ctrls, inView]);
 
 
+    useEffect(() => {
+        ctrls.start("visible");
+    }, [text])
+
+
     return (
         <Title css={css} style={style} aria-label={text} role="heading">
             {text.split(" ").map((word, index) => {

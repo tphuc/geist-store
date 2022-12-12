@@ -12,9 +12,9 @@ export default function MyApp({ Component, pageProps }) {
 
     return (
         <PayPalScriptProvider>
-        <CartProvider>
-            {getLayout(<Component {...pageProps} />)}
-        </CartProvider>
+            <CartProvider>
+                {getLayout(<Component {...pageProps} />)}
+            </CartProvider>
         </PayPalScriptProvider>
     )
 }

@@ -12,6 +12,7 @@ import PageLayout from 'layout/Page';
 import { IconBrandInstagram } from '@tabler/icons';
 import { styled } from '@stitches/react';
 import Footer from 'components/Footer';
+import useTrans from 'hooks/useTrans';
 
 
 const Marquee = dynamic(() => import("react-fast-marquee"), { ssr: false })
@@ -34,35 +35,44 @@ const Input = styled('input', {
 })
 
 
-const Button = styled('button', {
+const Button = styled('a', {
     all: "unset",
     outline: 'none',
-    background: slate.slate12,
-    color: slate.slate1,
-    height: 35,
+    background: slate.slate1,
+    color: slate.slate12,
+    borderRadius:30,
+ 
+    height: 40,
     display: "inline-flex",
     justifyContent: "center",
     alignItems: "center",
     fontFamily: "'Manrope', serif",
-    padding: "0px 10px"
+    padding: "0px 20px",
+    border:"1px solid #333",
+    transition:"0.4s ease transform",
+    '&:hover': {
+        transform:"scale(1.05)",
+        transition:"0.4s ease transform"
+    }
 })
 
 
 export default function Page() {
+    const trans = useTrans();
 
 
+    return <Box style={{ position: "relative", fontFamily: "'Manrope', serif",  }}>
 
-    return <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
-
-        {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
+      
         <Box
             css={{
                 position: 'relative',
                 // flexDirection: "column",
                 // display: "flex", flexWrap: "wrap", 
                 width: "100vw",
+                overflowX:'hidden',
                 height: "calc(100vh - 40px)",
-                overflow: "auto", scrollSnapType: "y mandatory",
+                overflowY: "auto", scrollSnapType: "y mandatory",
                 '&::-webkit-scrollbar': {
                     width: 0,
                     height: 0,
@@ -90,60 +100,33 @@ export default function Page() {
         >
 
             <Box style={{
+                userSelect:'none', msUserSelect:'none', WebkitUserSelect:'none', 
                 scrollSnapAlign: "start",
                 position: "relative", backgroundColor: slate.slate3, flex: 3, minWidth: 320,
-                backgroundImage: "url('/bg_3.jpeg')",
-
-                height: "calc(100vh - 40px)", width: "100vw", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat", objectFit: 'contain', color: "white"
-            }}>
-                <Box style={{
-                    zIndex: 0,
-                    // position: "fixed", 
-                    fontFamily: "'Manrope', serif",
-                    textAlign: "left",
-                    display: "flex", flexDirection: 'column',
-                    justifyContent: "flex-end",
-                    height: "100%",
-                    padding: "4%"
-
-                    // paddingTop: "10%",
-
-
-
-
-                }}>
-                    <AnimatedTitle css={{ fontSize: "6em", fontFamily: "'Lora', serif", fontWeight: 600 }} text='Desgined to withstand the rigor of everyday life' />
-                    {/* <h1 style={{ fontWeight: 500, fontSize: '5em', marginTop:"auto"}}> */}
-                    {/* Desgined to withstand the rigor of everyday life. */}
-                    {/* Được thiết kế để đối chọi với sự khắc nghiệt của cuộc sống thường ngày. */}
-                    {/* </h1> */}
-                    <span style={{ fontSize: 18, padding: 0, margin: 0, color: sand.sand11 }}>
-                        {/* Men's accessories have come a long way in recent years. They are not just simply functional items - they've become style statements in their own right.
-            indomitable spirit of man */}
-                    </span>
-
-                    {/* <span style={{ fontSize: 18, padding: 0, margin: 0, color: sand.sand12 }}>Find the one that fit your style.</span> */}
-
-                    {/* <br /> */}
-                    {/* <StyledLink href='/shop' style={{
-            background: sand.sand12, display: "inline-flex", padding: "10px 20px", cursor: "pointer", userSelect: "none", color: sand.sand1, fontFamily: "'Manrope', sans-serif", '&:hover': {
-              backgroundColor: "Black"
-            }
-          }}>
-            Shop now
-          </StyledLink> */}
-                </Box>
+                backgroundImage: "url('/home.jpeg')",
+                fontFamily:"'Manrope', serif",
+                height: "calc(100vh - 40px)", width: "100vw", backgroundSize: "cover", backgroundPosition: "46% 50%", backgroundRepeat: "no-repeat", objectFit: 'contain', color: "white"
+            }}> 
+                    <Box style={{ fontSize: "calc(3vw + 0.5vh + 10px)", paddingTop:"calc(20vh)", left: '4vw', color: gray.gray1 }}>
+                       
+                        <AnimatedTitle style={{margin:0, maxWidth:"100vw", overflow:"hidden", }}  text={trans.home.welcome} ></AnimatedTitle>
+                        <StyledLink href='/shop/category/all' as={Button}  style={{fontSize:"medium", marginTop:"2vh"}}>Shop all</StyledLink>
+                       
+                    </Box>
+                   
+                   
             </Box>
             {/* <Box>
       
       </Box> */}
             <Box style={{
                 scrollSnapAlign: "start",
+                userSelect:'none', msUserSelect:'none', WebkitUserSelect:'none', 
                 display: "flex", flexDirection: "row", maxWidth: '100vw', flexWrap: "wrap"
             }}>
 
                 <Box style={{ writingMode: "vertical-rl", display: "flex", minWidth: 50, borderTop: `1px solid ${gray.gray12}`, background: mauve.mauve3, borderRight: `1px solid ${gray.gray12}`, alignItems: "center", padding: "4em 0.5em", textOrientation: "mixed", fontFamily: "'Manrope', serif" }}>
-                    <h4 style={{ margin: 0, padding: 0, fontWeight: 300, }}>Our Favorites Geist Wallets</h4>
+                    <h4 style={{ margin: 0, padding: 0, fontWeight: 300, }}>{trans.home.ourfav}</h4>
                 </Box>
 
                 <Box style={{ flex: 1, minHeight: "100vh", width: '100vw', display: "flex", flexDirection: "column", }}>
@@ -226,26 +209,20 @@ export default function Page() {
                     // maxWidth: "90vw"
                 }}>
                     <Box style={{ padding: '4%' }}>
-                        <AnimatedTitle css={{ fontSize: '2em', fontWeight: 300 }} text='Wallet cases are made of aluminium, which is durable, light-weight, and rust-free. Designed to be both minimal and functional.' />
+                        <AnimatedTitle css={{ fontSize: '2em', fontWeight: 300 }} text={trans.home.introduction._1} />
                         <br />
-                        <AnimatedTitle css={{ fontSize: '2em', fontWeight: 300 }} text="The case comes with an RFID blocking system which prevents your credit cards from being scanned by a device with RFID reader capability." />
+                        <AnimatedTitle css={{ fontSize: '2em', fontWeight: 300 }} text={trans.home.introduction._2} />
+                        <AnimatedTitle css={{ fontSize: '2em', fontWeight: 300 }} text={trans.home.introduction._3} />
                     </Box>
                 </Box>
-
-
-
-
-
             </Box>
-
-
 
 
             <Box style={{ minHeight: "calc(100vh - 40px)", scrollSnapAlign: "start", display: "flex", flexDirection: "column" }}>
                 <Box css={{ borderBottom: "1px solid #111", borderTop: "1px solid #111", }}>
                     <Marquee gradient={false} >
-                        <h1 style={{ fontFamily: "'Manrope', serif", paddingLeft: 30, fontWeight: 300 }}>Redefined everyday essentials, streamline your daily life.</h1>
-                        <h1 style={{ fontFamily: "'Manrope', serif", paddingLeft: 30, fontWeight: 300 }}>Made ready for people always on the go.</h1>
+                        <h1 style={{ fontFamily: "'Manrope', serif", paddingLeft: 30, fontWeight: 300 }}>{trans.home.marquee._1}</h1>
+                        <h1 style={{ fontFamily: "'Manrope', serif", paddingLeft: 30, fontWeight: 300 }}>{trans.home.marquee._2}</h1>
                     </Marquee>
                 </Box>
                 <Box style={{ flex: 1, }}>
