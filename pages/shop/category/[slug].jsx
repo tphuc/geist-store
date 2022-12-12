@@ -110,12 +110,12 @@ export default function Page({ data }) {
                     background:sand.sand3, 
                     gridTemplateColumns: "repeat(auto-fit, minmax(330px, 33vw))"
                 }}>
-                    {products?.map((item, id) => <div key={item?.id} style={{ position: 'relative', boxShadow: "0px 0px 0px 1px #111", }}>
+                    {products?.map((item, id) => <div key={item?.id} style={{ position: 'relative', boxShadow: `0px 0px 0px 1px ${sand.sand11}`, }}>
                         <div style={{
                             // position:"sticky",
                             // top:78,
                             position:"relative",
-                            borderBottom: `1px solid ${sand.sand12}`,
+                            borderBottom: `1px solid ${sand.sand11}`,
                             width: "100%",
                             background: sand.sand3,
                             flexWrap: "wrap", display: "flex", justifyContent: "space-between",
@@ -166,9 +166,6 @@ export async function getStaticPaths() {
         paths.push({ params: { slug: item.slug }, locale: "en" })
         paths.push({ params: { slug: item.slug }, locale: "vi" })
     })
-
-
-
 
 
     // We'll pre-render only these paths at build time.

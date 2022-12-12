@@ -18,6 +18,7 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs';
 import { useCart } from 'react-use-cart';
 import { useShoppingCart } from 'use-shopping-cart';
+import { baseURL } from 'fetch.config';
 
 
 
@@ -91,28 +92,28 @@ const StyledChevron = styled(IconChevronDown, {
 
 
 
-const data = {
-    title: "Alumnium Wallet Card Holder",
-    variants: [
-        {
-            id:1,
-            color: "Black",
-            url: "/wallet1.png",
-            price: 149000,
-            hex: "#111111",
-        },
-        {
-            id:2,
-            color: "Brown",
-            price: 349000,
-            url: "/lw_black.png",
-            hex: "#361b1b"
-        }
-    ]
-}
+// const data = {
+//     title: "Alumnium Wallet Card Holder",
+//     variants: [
+//         {
+//             id:1,
+//             color: "Black",
+//             url: "/wallet1.png",
+//             price: 149000,
+//             hex: "#111111",
+//         },
+//         {
+//             id:2,
+//             color: "Brown",
+//             price: 349000,
+//             url: "/lw_black.png",
+//             hex: "#361b1b"
+//         }
+//     ]
+// }
 
 
-export default function Page() {
+export default function Page({data}) {
 
 
     const {
@@ -131,7 +132,7 @@ export default function Page() {
             </Box>
             <Box css={{ flex: 1, maxHeight: "calc(100vh - 40px)", overflow: "scroll", minWidth: 300, maxWidth: '100vw', display: "flex", flexDirection: "column", fontFamily: "'Manrope', serif", background: sand.sand1 }}>
                 <Box css={{ position: "sticky", top: 0, background: sand.sand3, zIndex: 1, padding: "0% 4%", fontWeight: 300, borderBottom: "1px solid #222" }}>
-                    <h3 style={{ fontWeight: 300, padding: 0 }}>{data.title}</h3>
+                    <h3 style={{ fontWeight: 300, padding: 0 }}>{data.en_title}</h3>
                 </Box>
                 <Box css={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "stretch", padding: '4%', boxSizing: 'border-box', }}>
 
@@ -303,4 +304,53 @@ Page.getLayout = (page) => {
     return <PageLayout>
         {page}
     </PageLayout>
+}
+
+
+
+
+export async function getStaticPaths() {
+    // Call an external API endpoint to get posts
+    const products = await fetch(`${baseURL}/api/v1/products`).then(res => res.json())
+
+    // Get the paths we want to pre-render based on posts
+    let paths = [];
+
+    products.forEach((item, i) => {
+        paths.push({ params: { slug: item.slug }, locale: "en" })
+        paths.push({ params: { slug: item.slug }, locale: "vi" })
+    })
+
+
+    // We'll pre-render only these paths at build time.
+    // { fallback: false } means other routes should 404.
+    return {
+        paths, fallback: false
+    }
+}
+
+
+
+export async function getStaticProps({ params }) {
+    // params contains the post `id`.
+    // If the route is like /posts/1, then params.id is 1
+    try {
+        const { slug } = params
+        let product =  await fetch(`${baseURL}/api/v1/products/${slug}`).then(res => res.json())
+        return {
+            props: {
+                data: product
+            },
+            revalidate: 60
+        }
+        
+    } catch (e) {
+        return {
+            props: {
+                data: null
+            },
+            revalidate: 60
+        }
+    }
+
 }
