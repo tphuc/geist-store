@@ -56,7 +56,10 @@ const Button = styled('button', {
 
 
 export default function Page({ data }) {
-    const { slug } = useRouter().query
+    const router = useRouter()
+    const { locale } = router;
+    const { slug } = router.query
+
     const { categories, products } = data;
 
     // console.log(products)
@@ -64,7 +67,9 @@ export default function Page({ data }) {
 
 
 
-    return <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
+    return <>
+   
+  <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
 
         {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
         <Box css={{ position: "relative", }} >
@@ -111,22 +116,36 @@ export default function Page({ data }) {
                     gridTemplateColumns: "repeat(auto-fit, minmax(330px, 33vw))"
                 }}>
                     {products?.map((item, id) => <div key={item?.id} style={{ position: 'relative', boxShadow: `0px 0px 0px 1px ${sand.sand11}`, }}>
+                    <StyledLink href={`/product/${item.slug}`}>
                         <div style={{
                             // position:"sticky",
                             // top:78,
+                            cursor:'pointer',
                             position:"relative",
                             borderBottom: `1px solid ${sand.sand11}`,
                             width: "100%",
-                            background: sand.sand3,
+                            background: gray.gray4,
                             flexWrap: "wrap", display: "flex", justifyContent: "space-between",
                             zIndex: 1, padding: 10, fontFamily: "'Manrope', serif"
                         }}>
-                            <span>{item?.vi_title}</span>
+                            <span>{ locale == 'en' ? item?.en_title : item?.vi_title}</span>
                             <span>400.000$</span>
                         </div>
-                        <div style={{ flex: 1, minWidth: 'max(330px, 33vw)', minHeight:'max(330px, 33vw)', position: "relative" }}>
-                            <Image alt='logo' fill src={item?.logo} />
-                        </div>
+                       
+                        <Box style={{ flex: 1, minWidth: 'max(330px, 33vw)', minHeight:'max(330px, 33vw)', position: "relative" }} css={{
+                            '& .img_front:hover': {
+                                opacity:0,
+                                transition:'0.2s ease opacity',
+
+                            },
+                           
+                            transition:'0.2s ease opacity'
+                        }}>
+                            <Image className='img_front' alt='logo' fill src={item?.images[1]?.url} />
+                            <Image className='img_front' alt='logo' fill src={item?.images[0]?.url} />
+                            
+                        </Box>
+                        </StyledLink>
 
                     </div>)}
                 </Box>
@@ -138,8 +157,10 @@ export default function Page({ data }) {
             <Footer />
         </Box>
 
-
-    </Box>;
+       
+    </Box>
+  
+    </>;
 }
 
 
@@ -198,7 +219,7 @@ export async function getStaticProps({ params }) {
                         products
                     }
                 },
-                revalidate: 10
+                revalidate: 60
             }
         }
         else {
@@ -213,7 +234,7 @@ export async function getStaticProps({ params }) {
                         products
                     }
                 },
-                revalidate: 10
+                revalidate: 60
             }
         }
     } catch (e) {
@@ -226,7 +247,7 @@ export async function getStaticProps({ params }) {
                     products: []
                 }
             },
-            revalidate: 10
+            revalidate: 60
         }
     }
 

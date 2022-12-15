@@ -193,8 +193,8 @@ export default function PageLayout({ children }) {
         {children}
 
       </div>
-      <div style={{ position: 'absolute', bottom: 10, left: '4%', zIndex:100 }}>
-        <NativeSelect defaultValue={router.locale} required onChange={(val) => router.push(router.asPath, null, { locale:val})} placeholder="Chọn ngôn ngữ">
+      <div style={{ position: 'fixed', bottom: 5, left: '2%', zIndex:100 }}>
+        <NativeSelect defaultValue={router.locale} required onChange={(val) => router.push(router.asPath, null, { locale:val})} placeholder="language">
           <option value={'en'}>🇬🇧 English </option>
           <option value={'vi'}>🇻🇳 Tiếng Việt </option>
                       

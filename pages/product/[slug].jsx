@@ -19,6 +19,7 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs';
 import { useCart } from 'react-use-cart';
 import { useShoppingCart } from 'use-shopping-cart';
 import { baseURL } from 'fetch.config';
+import Footer from 'components/Footer';
 
 
 
@@ -113,12 +114,12 @@ const StyledChevron = styled(IconChevronDown, {
 // }
 
 
-export default function Page({data}) {
+export default function Page({ data }) {
 
 
     const {
         addItem,
-      } = useShoppingCart();
+    } = useShoppingCart();
     const { category } = useRouter().query
 
     const [selected, setSelected] = useState(data.variants[0])
@@ -126,53 +127,80 @@ export default function Page({data}) {
     return <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
 
         {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
-        <Box css={{ position: "relative", minHeight: "calc(100vh - 40px)", display: "flex", flexDirection: "row", flexWrap: "wrap" }} >
-            <Box css={{ background: sand.sand3, maxHeight: "calc(100vh - 40px)", flex: 2, borderRight: '1px solid #111', minWidth: 300, minHeight: '50vh' }}>
-                <Image fill src={selected?.url} style={{ objectFit: 'contain' }} />
+        <Box style={{ position: "relative", minHeight: "calc(100vh - 40px)", display: "flex", flexDirection: "row", flexWrap: "wrap" }} >
+
+            <Box style={{ background: sand.sand3, flex: 4, minWidth: 340, borderRight: '1px solid #111', }}>
+                <div style={{ position: "relative", maxHeight: "calc(100vh - 40px)", minHeight: '50vh' }}>
+                    <Image fill src={selected?.imageUrl} style={{ objectFit: 'contain' }} />
+                </div>
+                <Box css={{
+                    '@media screen and (max-width: 600px)': {
+                        display: "none"
+                    }
+                }} >
+                    <Box
+                        style={{ display: "grid", width: "100%", gridTemplateColumns: "1fr", gridTemplateRows: "1fr" }}>
+                        {
+                            data?.images?.map((item) => <Image
+                                alt='Mountains'
+                                src={item.url}
+                                width={500}
+                                height={500}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    borderTop: `1px solid #333`,
+                                }}
+                                sizes="(max-width: 768px) 100vw,
+                                    (max-width: 1200px) 50vw,
+                                    33vw"
+                            />)
+                        }
+                    </Box>
+                </Box>
             </Box>
-            <Box css={{ flex: 1, maxHeight: "calc(100vh - 40px)", overflow: "scroll", minWidth: 300, maxWidth: '100vw', display: "flex", flexDirection: "column", fontFamily: "'Manrope', serif", background: sand.sand1 }}>
-                <Box css={{ position: "sticky", top: 0, background: sand.sand3, zIndex: 1, padding: "0% 4%", fontWeight: 300, borderBottom: "1px solid #222" }}>
+            <Box style={{ flex: 3, position: "sticky", minWidth: 340, top: 40, maxHeight: "calc(100vh - 40px)", overflow: "scroll", minWidth: 300, maxWidth: '100vw', display: "flex", flexDirection: "column", fontFamily: "'Manrope', serif", background: sand.sand1 }}>
+                <Box style={{ top: 0, background: sand.sand3, zIndex: 1, padding: "0% 4%", fontWeight: 300, borderBottom: "1px solid #222" }}>
                     <h3 style={{ fontWeight: 300, padding: 0 }}>{data.en_title}</h3>
                 </Box>
                 <Box css={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "stretch", padding: '4%', boxSizing: 'border-box', }}>
 
                     <h3 style={{ fontWeight: 300, padding: 0, margin: 0 }}>Price: {selected.price} </h3>
                     <br />
-                    <p style={{ fontWeight: 300, padding: 0, margin: 0 }}>Color: {selected.color}</p>
-                    <Box style={{ display: "flex", flexDirection: "row", gap: 5, marginTop: 5, }}>
-
+                    <p style={{ fontWeight: 300, padding: 0, margin: 0 }}>Variant: {selected.title}</p>
+                    <Box style={{ display: "flex", flexDirection: "row", gap: 5, marginTop: 5, }} >
                         {data?.variants?.map((item, id) => <Box
                             key={id}
-                            onClick={() => setSelected(item) }
+                            onClick={() => setSelected(item)}
                             style={{
-                                width: 30, 
-                                height: 30, 
-                                borderRadius: 30, 
-                                padding: 5, 
-                                display: "flex", 
-                                boxSizing: "border-box", 
-                                padding: 2, 
-                                border: selected.color == item.color ? "2px solid #111111" : "none"
+                                width: 30,
+                                height: 30,
+                                borderRadius: 30,
+                                padding: 5,
+                                display: "flex",
+                                boxSizing: "border-box",
+                                padding: 2,
+                                border: selected.id == item.id ? "2px solid #111111" : "none"
                             }}>
-                            <Box style={{ flex: 1, borderRadius: "50%", background: item.color }} />
+                            <Box style={{ flex: 1, borderRadius: "50%", background: item.metadata?.color }} />
                         </Box>)}
 
                     </Box>
 
                     <br />
-                    <Button 
-                    onClick={() => addItem({
-                        name: data.title,
-                        description: 'Yummy yellow fruit',
-                        id: selected?.id,
-                        price: 400,
-                        currency: 'USD',
-                        image: selected?.url
-                      }, {
-                        count: 1,
-                        product_metadata: { color: selected.color },
-                      })}
-                    css={{ display: "flex", padding: "4px 20px", gap: 10, borderRadius: 8 }}>
+                    <Button
+                        onClick={() => addItem({
+                            name: data.title,
+                            description: 'Yummy yellow fruit',
+                            id: selected?.id,
+                            price: 400,
+                            currency: 'USD',
+                            image: selected?.url
+                        }, {
+                            count: 1,
+                            product_metadata: { color: selected.color },
+                        })}
+                        css={{ display: "flex", padding: "4px 20px", gap: 10, borderRadius: 8 }}>
                         Add to cart
                         <IconShoppingCart size={18} />
                     </Button>
@@ -203,45 +231,50 @@ export default function Page({data}) {
                 </Box>
 
 
-                {/* <AccordionRoot type="single" defaultValue="description">
-                    <AccordionItem value='description'>
-                        <AccordionTrigger>
-                            Description
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem value='Shipping'>
-                        <AccordionTrigger >
-
-                            Shipping
-
-                        </AccordionTrigger>
-                        <AccordionContent css={{borderBottom:'none'}}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </AccordionContent>
-                    </AccordionItem>
-                </AccordionRoot> */}
+                
 
 
             </Box>
 
         </Box>
 
+        <Box css={{
+                    display:"none",
+                    '@media screen and (max-width: 600px)': {
+                        display: "block"
+                    }
+                }} >
+
+                    <ImageCarousel></ImageCarousel>
+                    {/* <Box
+                        style={{ display: "grid", width: "100%", gridTemplateColumns: "1fr", gridTemplateRows: "1fr" }}>
+                        {
+                            data?.images?.map((item) => <Image
+                                alt='Mountains'
+                                src={item.url}
+                                width={500}
+                                height={500}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    borderTop: `1px solid #333`,
+                                }}
+                                sizes="(max-width: 768px) 100vw,
+                                    (max-width: 1200px) 50vw,
+                                    33vw"
+                            />)
+                        }
+                    </Box> */}
+                </Box>
+
+                <Footer/>
 
 
 
 
 
-        <Box style={{ display: "flex", flexDirection: "column", }}>
+
+        {/* <Box style={{ display: "flex", flexDirection: "column", }}>
 
             <Box style={{ flex: 1, display: "flex", flexDirection: "row", borderTop: "1px solid #110", borderBottom: "1px solid #110", flexWrap: "wrap-reverse" }}>
                 <Box style={{ flex: 1, display: 'flex', flexDirection: 'column', background: sand.sand1, borderRight: "1px solid #110", minWidth: 300 }}>
@@ -253,7 +286,7 @@ export default function Page({data}) {
                             <StyledLink style={{ fontSize: "1.2rem", fontFamily: "'Manrope', serif", }} href='/'> @the.geist.store</StyledLink>
                         </div>
                         <br />
-                        {/* <StyledLink style={{fontSize:"1.5rem", fontFamily: "'Manrope', serif",}} href='/'>Facebook</StyledLink> */}
+                       
                         <h1 style={{ fontWeight: 300, fontFamily: "'Lora', serif", fontSize: "2em", margin: 0, padding: 0 }}><i>Contact us</i></h1>
                         <StyledLink style={{ fontFamily: "'Manrope', serif", }} href='/'>hello@geist.store</StyledLink>
                         <StyledLink style={{ fontFamily: "'Manrope', serif", }} href='/'>+84 889 775268</StyledLink>
@@ -293,7 +326,7 @@ export default function Page({data}) {
                     </p>
                 </Box>
             </Box>
-        </Box>
+        </Box> */}
 
 
     </Box>;
@@ -336,14 +369,14 @@ export async function getStaticProps({ params }) {
     // If the route is like /posts/1, then params.id is 1
     try {
         const { slug } = params
-        let product =  await fetch(`${baseURL}/api/v1/products/${slug}`).then(res => res.json())
+        let product = await fetch(`${baseURL}/api/v1/products/${slug}`).then(res => res.json())
         return {
             props: {
                 data: product
             },
             revalidate: 60
         }
-        
+
     } catch (e) {
         return {
             props: {
