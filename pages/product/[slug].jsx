@@ -141,7 +141,8 @@ export default function Page({ data }) {
                     <Box
                         style={{ display: "grid", width: "100%", gridTemplateColumns: "1fr", gridTemplateRows: "1fr" }}>
                         {
-                            data?.images?.map((item) => <Image
+                            data?.images?.map((item, id) => <Image
+                                key={id}
                                 alt='Mountains'
                                 src={item.url}
                                 width={500}
