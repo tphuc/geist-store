@@ -4,6 +4,7 @@ import StyledLink from "components/Link";
 import Box from 'components/Box';
 import ImageSlides from 'components/ImageSlides';
 import * as Accordion from '@radix-ui/react-accordion';
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 
 
 import dynamic from 'next/dynamic';
@@ -116,7 +117,7 @@ const StyledChevron = styled(IconChevronDown, {
 
 export default function Page({ data }) {
 
-
+ 
     const {
         addItem,
     } = useShoppingCart();
@@ -131,33 +132,43 @@ export default function Page({ data }) {
 
             <Box style={{ background: sand.sand3, flex: 4, minWidth: 340, borderRight: '1px solid #111', }}>
                 <div style={{ position: "relative", maxHeight: "calc(100vh - 40px)", minHeight: '50vh' }}>
-                    <Image fill src={selected?.imageUrl} style={{ objectFit: 'contain' }} />
+                    <Image fill src={selected?.imageUrl} style={{  objectFit: 'contain' }} />
                 </div>
                 <Box css={{
                     '@media screen and (max-width: 600px)': {
                         display: "none"
                     }
                 }} >
-                    <Box
-                        style={{ display: "grid", width: "100%", gridTemplateColumns: "1fr", gridTemplateRows: "1fr" }}>
-                        {
-                            data?.images?.map((item, id) => <Image
-                                key={id}
-                                alt='Mountains'
-                                src={item.url}
-                                width={500}
-                                height={500}
-                                style={{
-                                    width: '100%',
-                                    height: 'auto',
-                                    borderTop: `1px solid #333`,
-                                }}
-                                sizes="(max-width: 768px) 100vw,
+
+                    <ResponsiveMasonry
+                        columnsCountBreakPoints={{ 350: 1, 780: 1, 900: 2, 1200: 2 }}
+                    >
+                        <Masonry gutter='1px' style={{ background: "#333", borderTop: `1px solid ${sand.sand11}` }} >
+                            {
+                                data?.images?.map((item, id) => <Image
+                                    key={id}
+                                    alt='Mountains'
+                                    src={item.url}
+                                    width={500}
+                                    height={500}
+                                    style={{
+                                        objectFit: "contain",
+                                        width: '100%',
+                                        height: 'auto',
+
+                                    }}
+                                    sizes="(max-width: 768px) 100vw,
                                     (max-width: 1200px) 50vw,
                                     33vw"
-                            />)
-                        }
-                    </Box>
+                                />)
+                            }
+                        </Masonry>
+
+                    </ResponsiveMasonry>
+                    {/* <Box
+                        style={{ display: "grid", width: "100%", gridTemplateColumns: "1fr", gridTemplateRows: "1fr" }}>
+                        
+                    </Box> */}
                 </Box>
             </Box>
             <Box style={{ flex: 3, position: "sticky", minWidth: 340, top: 40, maxHeight: "calc(100vh - 40px)", overflow: "scroll", minWidth: 300, maxWidth: '100vw', display: "flex", flexDirection: "column", fontFamily: "'Manrope', serif", background: sand.sand1 }}>
@@ -169,6 +180,7 @@ export default function Page({ data }) {
                     <h3 style={{ fontWeight: 300, padding: 0, margin: 0 }}>Price: {selected.price} </h3>
                     <br />
                     <p style={{ fontWeight: 300, padding: 0, margin: 0 }}>Variant: {selected.title}</p>
+
                     <Box style={{ display: "flex", flexDirection: "row", gap: 5, marginTop: 5, }} >
                         {data?.variants?.map((item, id) => <Box
                             key={id}
@@ -232,7 +244,7 @@ export default function Page({ data }) {
                 </Box>
 
 
-                
+
 
 
             </Box>
@@ -240,14 +252,38 @@ export default function Page({ data }) {
         </Box>
 
         <Box css={{
-                    display:"none",
-                    '@media screen and (max-width: 600px)': {
-                        display: "block"
-                    }
-                }} >
+            display: "none",
+            '@media screen and (max-width: 600px)': {
+                display: "block"
+            }
+        }} >
 
-                    <ImageCarousel></ImageCarousel>
-                    {/* <Box
+<ResponsiveMasonry
+                        columnsCountBreakPoints={{ 350: 1, 780: 1, 900: 2, 1200: 2 }}
+                    >
+                        <Masonry gutter='1px' style={{ background: "#333", borderTop: `1px solid #333` }} >
+                            {
+                                data?.images?.map((item, id) => <Image
+                                    key={id}
+                                    alt='Mountains'
+                                    src={item.url}
+                                    width={500}
+                                    height={500}
+                                    style={{
+                                        objectFit: "contain",
+                                        width: '100%',
+                                        height: 'auto',
+
+                                    }}
+                                    sizes="(max-width: 768px) 100vw,
+                                    (max-width: 1200px) 50vw,
+                                    33vw"
+                                />)
+                            }
+                        </Masonry>
+
+                    </ResponsiveMasonry>
+            {/* <Box
                         style={{ display: "grid", width: "100%", gridTemplateColumns: "1fr", gridTemplateRows: "1fr" }}>
                         {
                             data?.images?.map((item) => <Image
@@ -266,9 +302,9 @@ export default function Page({ data }) {
                             />)
                         }
                     </Box> */}
-                </Box>
+        </Box>
 
-                <Footer/>
+        <Footer />
 
 
 

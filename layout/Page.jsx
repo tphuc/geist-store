@@ -62,7 +62,7 @@ export default function PageLayout({ children }) {
 
   const router = useRouter();
   const t = useTrans()
-  
+
 
 
   return (
@@ -120,12 +120,21 @@ export default function PageLayout({ children }) {
 
           <Dialog.Root>
             <Dialog.Trigger asChild>
-              <Box style={{ cursor: 'pointer', userSelect: "none", position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div style={{display:"flex", gap:10 }}>
+                <NativeSelect style={{border:`1px solid ${sand.sand11}`, borderRadius:5}} defaultValue={router.locale} required onChange={(val) => router.push(router.asPath, null, { locale: val })} placeholder="Shipping">
+                  <option value={'en'}>🇬🇧 USD</option>
+                  <option value={'vi'}>🇻🇳 VND</option>
+
+                </NativeSelect>
+                <Box style={{ cursor: 'pointer', userSelect: "none", position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                
                 <IconShoppingCart strokeWidth={1.25} />
                 <Box style={{ position: "absolute", fontSize: "small", width: 20, height: 20, background: gray.gray12, color: "whitesmoke", borderRadius: "50%", top: '-20%', right: '-50%', display: "flex", justifyContent: "center", alignItems: "center" }}>
                   {cartCount}
                 </Box>
               </Box>
+              </div>
+             
             </Dialog.Trigger>
             <Dialog.Portal>
               <DialogOverlay />
@@ -193,11 +202,11 @@ export default function PageLayout({ children }) {
         {children}
 
       </div>
-      <div style={{ position: 'fixed', bottom: 5, left: '2%', zIndex:100 }}>
-        <NativeSelect defaultValue={router.locale} required onChange={(val) => router.push(router.asPath, null, { locale:val})} placeholder="language">
+      <div style={{ position: 'fixed', bottom: 5, left: '2%', zIndex: 100 }}>
+        <NativeSelect defaultValue={router.locale} required onChange={(val) => router.push(router.asPath, null, { locale: val })} placeholder="language">
           <option value={'en'}>🇬🇧 English </option>
           <option value={'vi'}>🇻🇳 Tiếng Việt </option>
-                      
+
         </NativeSelect>
       </div>
     </div>

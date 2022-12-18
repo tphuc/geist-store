@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request) {
-  return
-}
+export async function middleware(req) {
+    const { nextUrl: url, geo } = req;
+    const country = geo.country || 'US';
+   
 
-// See "Matching Paths" below to learn more
-export const config = {
-  matcher: ['/shop/category', '/en/shop/category/all', '/vi/shop/category/all'],
+    url.searchParams.set('c', country);
+
+    return NextResponse.rewrite(url);
 }

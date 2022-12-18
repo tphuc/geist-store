@@ -57,7 +57,8 @@ const Button = styled('a', {
 })
 
 
-export default function Page() {
+
+export default function Page(props) {
     const trans = useTrans();
 
 
