@@ -36,7 +36,7 @@ const Input = styled('input', {
 
 
 const Button = styled('a', {
-    all: "unset",
+
     outline: 'none',
     background: slate.slate1,
     color: slate.slate12,
@@ -108,10 +108,12 @@ export default function Page(props) {
                 fontFamily:"'Manrope', serif",
                 height: "calc(100vh - 40px)", width: "100vw", backgroundSize: "cover", backgroundPosition: "46% 50%", backgroundRepeat: "no-repeat", objectFit: 'contain', color: "white"
             }}> 
-                    <Box style={{ fontSize: "calc(3vw + 0.5vh + 10px)", paddingTop:"calc(20vh)", left: '4vw', color: gray.gray1 }}>
+                    <Box style={{ fontSize: "calc(3vw + 0.3vh + 10px)", paddingTop:"calc(20vh)", left: '4vw', color: gray.gray1 }}>
                        
                         <AnimatedTitle style={{margin:0, maxWidth:"100vw", overflow:"hidden", }}  text={trans.home.welcome} ></AnimatedTitle>
-                        <StyledLink href='/shop/category/all' as={Button}  style={{fontSize:"medium", marginTop:"2vh"}}>Shop all</StyledLink>
+                        <StyledLink href={'/shop/category/all'} style={{fontSize:"medium", marginTop:"2vh"}}>
+                            <Button>Shop all</Button>
+                        </StyledLink>
                        
                     </Box>
                    

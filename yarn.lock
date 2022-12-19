@@ -44,6 +44,26 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@floating-ui/core@^0.7.3":
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-0.7.3.tgz#d274116678ffae87f6b60e90f88cc4083eefab86"
+  integrity sha512-buc8BXHmG9l82+OQXOFU3Kr2XQx9ys01U/Q9HMIrZ300iLc8HLMgh7dcCqgYzAzf4BkoQvDcXf5Y+CuEZ5JBYg==
+
+"@floating-ui/dom@^0.5.3":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-0.5.4.tgz#4eae73f78bcd4bd553ae2ade30e6f1f9c73fe3f1"
+  integrity sha512-419BMceRLq0RrmTSDxn8hf9R3VCJv2K9PUfugh5JyEFmdjzDo+e8U5EdR8nzKq8Yj1htzLm3b6eQEEam3/rrtg==
+  dependencies:
+    "@floating-ui/core" "^0.7.3"
+
+"@floating-ui/react-dom@0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@floating-ui/react-dom/-/react-dom-0.7.2.tgz#0bf4ceccb777a140fc535c87eb5d6241c8e89864"
+  integrity sha512-1T0sJcpHgX/u4I1OzIEhlcrvkUN8ln39nz7fMoE/2HDHrPiMFoOGR7++GYyfUmIQHkkrTinaeQsO3XWubjSvGg==
+  dependencies:
+    "@floating-ui/dom" "^0.5.3"
+    use-isomorphic-layout-effect "^1.1.1"
+
 "@hookform/resolvers@^2.9.10":
   version "2.9.10"
   resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.9.10.tgz#e7e88942ee34e97b7bc937b0be4694194c9cd420"
@@ -268,6 +288,14 @@
     "@radix-ui/react-primitive" "1.0.1"
     "@radix-ui/react-use-controllable-state" "1.0.0"
 
+"@radix-ui/react-arrow@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-arrow/-/react-arrow-1.0.1.tgz#5246adf79e97f89e819af68da51ddcf349ecf1c4"
+  integrity sha512-1yientwXqXcErDHEv8av9ZVNEBldH8L9scVR3is20lL+jOCfcJyMFZFEY5cgIrgexsq1qggSXqiEL/d/4f+QXA==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-primitive" "1.0.1"
+
 "@radix-ui/react-collapsible@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-collapsible/-/react-collapsible-1.0.1.tgz#7184312ce18e703628b9ef75cdc44b896d6f06b1"
@@ -372,6 +400,44 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-use-layout-effect" "1.0.0"
+
+"@radix-ui/react-popover@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-popover/-/react-popover-1.0.2.tgz#f761c8aafb61519522b8e80501c589e619073a2c"
+  integrity sha512-4tqZEl9w95R5mlZ/sFdgBnfhCBOEPepLIurBA5kt/qaAhldJ1tNQd0ngr0ET0AHbPotT4mwxMPr7a+MA/wbK0g==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "1.0.0"
+    "@radix-ui/react-compose-refs" "1.0.0"
+    "@radix-ui/react-context" "1.0.0"
+    "@radix-ui/react-dismissable-layer" "1.0.2"
+    "@radix-ui/react-focus-guards" "1.0.0"
+    "@radix-ui/react-focus-scope" "1.0.1"
+    "@radix-ui/react-id" "1.0.0"
+    "@radix-ui/react-popper" "1.0.1"
+    "@radix-ui/react-portal" "1.0.1"
+    "@radix-ui/react-presence" "1.0.0"
+    "@radix-ui/react-primitive" "1.0.1"
+    "@radix-ui/react-slot" "1.0.1"
+    "@radix-ui/react-use-controllable-state" "1.0.0"
+    aria-hidden "^1.1.1"
+    react-remove-scroll "2.5.5"
+
+"@radix-ui/react-popper@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-popper/-/react-popper-1.0.1.tgz#9fa8a6a493404afa225866a5cd75af23d141baa0"
+  integrity sha512-J4Vj7k3k+EHNWgcKrE+BLlQfpewxA7Zd76h5I0bIa+/EqaIZ3DuwrbPj49O3wqN+STnXsBuxiHLiF0iU3yfovw==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@floating-ui/react-dom" "0.7.2"
+    "@radix-ui/react-arrow" "1.0.1"
+    "@radix-ui/react-compose-refs" "1.0.0"
+    "@radix-ui/react-context" "1.0.0"
+    "@radix-ui/react-primitive" "1.0.1"
+    "@radix-ui/react-use-layout-effect" "1.0.0"
+    "@radix-ui/react-use-rect" "1.0.0"
+    "@radix-ui/react-use-size" "1.0.0"
+    "@radix-ui/rect" "1.0.0"
 
 "@radix-ui/react-portal@1.0.1":
   version "1.0.1"
@@ -491,6 +557,14 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
+"@radix-ui/react-use-rect@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-use-rect/-/react-use-rect-1.0.0.tgz#b040cc88a4906b78696cd3a32b075ed5b1423b3e"
+  integrity sha512-TB7pID8NRMEHxb/qQJpvSt3hQU4sqNPM1VCTjTRjEOa7cEop/QMuq8S6fb/5Tsz64kqSvB9WnwsDHtjnrM9qew==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/rect" "1.0.0"
+
 "@radix-ui/react-use-size@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-use-size/-/react-use-size-1.0.0.tgz#a0b455ac826749419f6354dc733e2ca465054771"
@@ -498,6 +572,13 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-use-layout-effect" "1.0.0"
+
+"@radix-ui/rect@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/rect/-/rect-1.0.0.tgz#0dc8e6a829ea2828d53cbc94b81793ba6383bf3c"
+  integrity sha512-d0O68AYy/9oeEy1DdC07bz1/ZXX+DqCskRd3i4JzLSTXwefzaepQrKjXC7aNM8lTHjFLDO0pDgaEiQ7jEk+HVg==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
 
 "@reduxjs/toolkit@^1.5.0":
   version "1.9.0"
@@ -837,6 +918,11 @@ csstype@^3.0.2:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
+
+currency-symbol-map@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/currency-symbol-map/-/currency-symbol-map-5.1.0.tgz#59531fbe977ba95e8d358e90e3c9e9053efb75ad"
+  integrity sha512-LO/lzYRw134LMDVnLyAf1dHE5tyO6axEFkR3TXjQIOmMkAM9YL6QsiUwuXzZAmFnuDJcs4hayOgyIYtViXFrLw==
 
 damerau-levenshtein@^1.0.8:
   version "1.0.8"
@@ -2289,10 +2375,12 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-swr@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-1.3.0.tgz#c6531866a35b4db37b38b72c45a63171faf9f4e8"
-  integrity sha512-dkghQrOl2ORX9HYrMDtPa7LTVHJjCTeZoB1dqTbnnEDlSvN8JEKpYIYurDfvbQFUUS8Cg8PceFVZNkW0KNNYPw==
+swr@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-2.0.0.tgz#91d999359e2be92de1a41f6b6711d72be20ffdbd"
+  integrity sha512-IhUx5yPkX+Fut3h0SqZycnaNLXLXsb2ECFq0Y29cxnK7d8r7auY2JWNbCW3IX+EqXUg3rwNJFlhrw5Ye/b6k7w==
+  dependencies:
+    use-sync-external-store "^1.2.0"
 
 text-table@^0.2.0:
   version "0.2.0"
@@ -2384,6 +2472,11 @@ use-callback-ref@^1.3.0:
   dependencies:
     tslib "^2.0.0"
 
+use-isomorphic-layout-effect@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.1.2.tgz#497cefb13d863d687b08477d9e5a164ad8c1a6fb"
+  integrity sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==
+
 use-shopping-cart@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/use-shopping-cart/-/use-shopping-cart-3.1.3.tgz#3b352401cc9f2ceed41f4d45f34eb55376ab51e2"
@@ -2404,7 +2497,7 @@ use-sidecar@^1.1.2:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
 
-use-sync-external-store@1.2.0:
+use-sync-external-store@1.2.0, use-sync-external-store@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==

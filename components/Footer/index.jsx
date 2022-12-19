@@ -87,11 +87,11 @@ export default function Footer() {
 
 
 
-        <Box style={{ writingMode: "vertical-rl", display: "flex", minWidth: 40, alignItems: "center", padding: "2em 0.3em", textOrientation: "mixed", fontFamily: "'Manrope', serif" }}>
+        {/* <Box style={{ writingMode: "vertical-rl", display: "flex", minWidth: 40, alignItems: "center", padding: "2em 0.3em", textOrientation: "mixed", fontFamily: "'Manrope', serif" }}>
 
             <h1 style={{ fontFamily: "'Manrope', serif", fontSize: "1em", margin: 0, padding: 0, fontWeight: 500 }}>GEISZT ©2022</h1>
 
-        </Box>
+        </Box> */}
 
 
     </Box>

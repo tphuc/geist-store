@@ -6,7 +6,7 @@ import vi from 'public/lang/vi'
 const useTrans = () => {
     const { locale } = useRouter()
 
-    const trans = locale === 'en' ? en : vi
+    const trans = locale === 'en-US' ? en : vi
 
     return trans
 }

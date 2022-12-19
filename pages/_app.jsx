@@ -1,6 +1,7 @@
 
 // import { CartProvider } from 'react-use-cart'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+import { ShippingCountryProvider } from 'hooks/useShippingCountry'
 import 'styles/globals.css'
 import { CartProvider } from 'use-shopping-cart'
 
@@ -12,9 +13,11 @@ export default function MyApp({ Component, pageProps }) {
 
     return (
         <PayPalScriptProvider>
-            <CartProvider>
-                {getLayout(<Component {...pageProps} />)}
-            </CartProvider>
+            <ShippingCountryProvider>
+                <CartProvider>
+                    {getLayout(<Component {...pageProps} />)}
+                </CartProvider>
+            </ShippingCountryProvider>
         </PayPalScriptProvider>
     )
 }

@@ -117,22 +117,69 @@ const StyledChevron = styled(IconChevronDown, {
 
 export default function Page({ data }) {
 
- 
+
     const {
         addItem,
     } = useShoppingCart();
-    const { category } = useRouter().query
+    const { locale } = useRouter()
 
     const [selected, setSelected] = useState(data.variants[0])
 
-    return <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
+
+    const getPrice = React.useMemo(() => {
+        let priceByCountry = data?.prices?.find((item) => item.matchLocale === locale)
+
+        if (priceByCountry)
+            return new Intl.NumberFormat(priceByCountry?.matchLocale || 'en-US', { style: 'currency', currency: priceByCountry.currencyCode ? priceByCountry?.currencyCode : data?.defaultCurrencyCode }).format(priceByCountry.value)
+        else {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: data.defaultCurrencyCode }).format(data.defaultPrice)
+        }
+
+
+    }, [locale])
+
+    const getSalePrice = React.useMemo(() => {
+        let priceByCountry = data?.prices?.find((item) => item.matchLocale === locale)
+
+        if (priceByCountry) {
+            if (priceByCountry.saleValue > 0)
+                return new Intl.NumberFormat(priceByCountry?.matchLocale || 'en-US', { style: 'currency', currency: priceByCountry.currencyCode ? priceByCountry?.currencyCode : data?.defaultCurrencyCode }).format(priceByCountry.saleValue)
+            return null
+        }
+
+
+        else {
+            if (data?.saleValue)
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: data.defaultCurrencyCode }).format(data.saleValue)
+            return null
+        }
+
+
+    }, [locale])
+
+
+
+    return <Box style={{ position: "relative", fontFamily: "'Lora', serif", }} css={{
+        '&::-webkit-scrollbar': {
+            width: 0,
+            height: 0,
+        },
+
+        '&::-webkit-scrollbar-thumb': {
+            background: sand.sand10,
+            borderRadius: 0
+        },
+        '&::-webkit-scrollbar-track': {
+            background: sand.sand7
+        }
+    }}>
 
         {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
-        <Box style={{ position: "relative", minHeight: "calc(100vh - 40px)", display: "flex", flexDirection: "row", flexWrap: "wrap" }} >
+        <Box style={{ position: "relative", display: "flex", flexDirection: "row", flexWrap: "wrap" }} >
 
             <Box style={{ background: sand.sand3, flex: 4, minWidth: 340, borderRight: '1px solid #111', }}>
                 <div style={{ position: "relative", maxHeight: "calc(100vh - 40px)", minHeight: '50vh' }}>
-                    <Image fill src={selected?.imageUrl} style={{  objectFit: 'contain' }} />
+                    <Image fill src={selected?.imageUrl} style={{ objectFit: 'contain' }} />
                 </div>
                 <Box css={{
                     '@media screen and (max-width: 600px)': {
@@ -171,15 +218,22 @@ export default function Page({ data }) {
                     </Box> */}
                 </Box>
             </Box>
-            <Box style={{ flex: 3, position: "sticky", minWidth: 340, top: 40, maxHeight: "calc(100vh - 40px)", overflow: "scroll", minWidth: 300, maxWidth: '100vw', display: "flex", flexDirection: "column", fontFamily: "'Manrope', serif", background: sand.sand1 }}>
-                <Box style={{ top: 0, background: sand.sand3, zIndex: 1, padding: "0% 4%", fontWeight: 300, borderBottom: "1px solid #222" }}>
-                    <h3 style={{ fontWeight: 300, padding: 0 }}>{data.en_title}</h3>
+            <Box style={{ flex: 3, position: "sticky", minWidth: 340, top: 0, maxHeight: "100vh", overflow: "scroll", minWidth: 300, maxWidth: '100vw', display: "flex", flexDirection: "column", fontFamily: "'Manrope', serif", background: sand.sand1 }}
+                css={{
+                    '@media screen and (max-width: 600px)': {
+                        maxHeight: "200vh !important"
+                    }
+                }} >
+                <Box style={{ position: "relative", top: 0, background: sand.sand3, zIndex: 1, padding: "1% 4%", fontWeight: 300, borderBottom: "1px solid #222" }}>
+                    <h3 style={{ fontSize: "1.3em", fontWeight: 300, padding: 0, marginTop: 5, marginBottom: 5 }}>{data.en_title} </h3>
+                    <span style={{ color: sand.sand11, fontWeight: 500, fontSize: "0.8em", padding: 0, marginBottom: 10 }}>No. {data?.code}</span>
                 </Box>
-                <Box css={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "stretch", padding: '4%', boxSizing: 'border-box', }}>
+                <Box css={{ position: 'relative', flex: 1, display: "flex", flexDirection: "column", justifyContent: "stretch", padding: '4%', boxSizing: 'border-box', }}>
 
-                    <h3 style={{ fontWeight: 300, padding: 0, margin: 0 }}>Price: {selected.price} </h3>
+                    {getSalePrice && <h3 style={{ fontSize: "1em", color: sand.sand11, fontWeight: 300, textDecoration: "line-through", padding: 0, margin: 0 }}>{getSalePrice} </h3>}
+                    <span > Price: {getPrice}</span>
                     <br />
-                    <p style={{ fontWeight: 300, padding: 0, margin: 0 }}>Variant: {selected.title}</p>
+                    <span style={{ fontWeight: 300, padding: 0, margin: 0 }}>Variant: {selected.title}</span>
 
                     <Box style={{ display: "flex", flexDirection: "row", gap: 5, marginTop: 5, }} >
                         {data?.variants?.map((item, id) => <Box
@@ -221,24 +275,19 @@ export default function Page({ data }) {
                     <TabsRoot defaultValue='tab1'>
                         <TabsList aria-label="Manage your account">
                             <TabsTrigger value="tab1">Description</TabsTrigger>
-                            <TabsTrigger value="tab2">Dimensions</TabsTrigger>
-                            <TabsTrigger value="tab3">Material</TabsTrigger>
+                            <TabsTrigger value="tab3">Shipping</TabsTrigger>
+                            {/* <TabsTrigger value="tab4">Reviews</TabsTrigger> */}
                         </TabsList>
-                        <TabsContent css={{ marginTop: 20 }} value="tab1">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        <TabsContent css={{ marginTop: 20, minHeight:300 }} value="tab1">
+                            <div style={{ fontSize: '0.95em', color: sand.sand11, fontWeight: 300 }} dangerouslySetInnerHTML={{ __html: locale == 'vi-VN' ? data?.vi_description : data?.en_description }}>
 
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </div>
+                        </TabsContent>
+                        <TabsContent css={{ marginTop: 20, minHeight:300 }} value="tab3">
+                            <div style={{ color: sand.sand11, fontSize: '0.95em', fontWeight: 300 }} >
+                                We offer regular or express shipping to most addresses worldwide. Shipping cost and delivery times are calculated at checkout.
+                                <br />Note: P.O. box deliveries will automatically be sent by regular shipping.
+                            </div>
                         </TabsContent>
                     </TabsRoot>
                 </Box>
@@ -258,31 +307,31 @@ export default function Page({ data }) {
             }
         }} >
 
-<ResponsiveMasonry
-                        columnsCountBreakPoints={{ 350: 1, 780: 1, 900: 2, 1200: 2 }}
-                    >
-                        <Masonry gutter='1px' style={{ background: "#333", borderTop: `1px solid #333` }} >
-                            {
-                                data?.images?.map((item, id) => <Image
-                                    key={id}
-                                    alt='Mountains'
-                                    src={item.url}
-                                    width={500}
-                                    height={500}
-                                    style={{
-                                        objectFit: "contain",
-                                        width: '100%',
-                                        height: 'auto',
+            <ResponsiveMasonry
+                columnsCountBreakPoints={{ 350: 1, 780: 1, 900: 2, 1200: 2 }}
+            >
+                <Masonry gutter='1px' style={{ background: "#333", borderTop: `1px solid #333` }} >
+                    {
+                        data?.images?.map((item, id) => <Image
+                            key={id}
+                            alt='Mountains'
+                            src={item.url}
+                            width={500}
+                            height={500}
+                            style={{
+                                objectFit: "contain",
+                                width: '100%',
+                                height: 'auto',
 
-                                    }}
-                                    sizes="(max-width: 768px) 100vw,
+                            }}
+                            sizes="(max-width: 768px) 100vw,
                                     (max-width: 1200px) 50vw,
                                     33vw"
-                                />)
-                            }
-                        </Masonry>
+                        />)
+                    }
+                </Masonry>
 
-                    </ResponsiveMasonry>
+            </ResponsiveMasonry>
             {/* <Box
                         style={{ display: "grid", width: "100%", gridTemplateColumns: "1fr", gridTemplateRows: "1fr" }}>
                         {
@@ -387,8 +436,8 @@ export async function getStaticPaths() {
     let paths = [];
 
     products.forEach((item, i) => {
-        paths.push({ params: { slug: item.slug }, locale: "en" })
-        paths.push({ params: { slug: item.slug }, locale: "vi" })
+        paths.push({ params: { slug: item.slug }, locale: "en-US" })
+        paths.push({ params: { slug: item.slug }, locale: "vi-VN" })
     })
 
 

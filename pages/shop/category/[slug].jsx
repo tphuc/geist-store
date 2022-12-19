@@ -74,34 +74,44 @@ export default function Page({ data }) {
         {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
         <Box css={{ position: "relative", }} >
             <div style={{
+                position:"relative",
                 display: 'flex', fontFamily: "'Manrope', serif",
                 // paddingLeft: "4%",
-                position: "sticky",
-                top: 40, zIndex: 10, background: sand.sand3,
+
+                zIndex: 10, background: sand.sand4,
+                padding:5,
+                
+
                 borderBottom: `1px solid ${sand.sand11}`,
                 // paddingTop: '0.5em', paddingBottom: '0.5em', 
                 flexDirection: 'row', alignItems: 'center',
+                gap:"0.5em",
+                
             }}>
                 <StyledLink href={{
                     pathname: '/shop/category/all'
                 }} style={{
-                    padding: "8px 15px",
-                    borderLeft: "1px solid #111",
+                    padding: "5px 15px",
+                    // borderLeft: "1px solid #111",
 
-                    background: slug === 'all' ? sand.sand12 : sand.sand3,
-                    color: slug === 'all' ? 'white' : sand.sand12,
+                    border:  slug == 'all' ? `1px solid #333`:`none`,
+                    borderRadius:20
                     // borderRadius: 50
                 }}>All</StyledLink>
-                <div style={{ display: "flex", flexDirection: "row", overflowX: "scroll" }}>
+                <div style={{ display: "flex", flexDirection: "row", overflowX: "scroll", minWidth:"90vw", gap:'0.5em' }}>
                     {
                         categories?.map((item) => <StyledLink key={item?.id} href={{
                             pathname: `/shop/category/${item.slug}`
                         }} style={{
-                            padding: "8px 15px",
+                            padding: "5px 10px",
                             whiteSpace: "nowrap",
-                            borderRight: `1px solid ${sand.sand11}`,
-                            background: item?.slug == slug ? sand.sand12 : sand.sand3,
-                            color: item?.slug == slug ? 'white' : sand.sand12,
+                            
+                            // background: item?.slug == slug ? sand.sand12 : sand.sand3,
+                            // color: item?.slug == slug ? 'white' : sand.sand12,
+                            
+                            border:  item?.slug == slug ? `1px solid #333`:`none`,
+                            borderRadius:20
+
                             // borderRadius: 50
                         }}>{item.title}</StyledLink>)
                     }
@@ -113,7 +123,7 @@ export default function Page({ data }) {
                 <Box style={{
                     display: "grid", gap: 1,
                     background:sand.sand3, 
-                    gridTemplateColumns: "repeat(auto-fit, minmax(330px, 33vw))"
+                    gridTemplateColumns: "repeat(auto-fill, minmax(320px, 33vw))"
                 }}>
                     {products?.map((item, id) => <div key={item?.id} style={{ position: 'relative', boxShadow: `0px 0px 0px 1px ${sand.sand11}`, }}>
                     <StyledLink href={`/product/${item.slug}`}>
@@ -128,11 +138,11 @@ export default function Page({ data }) {
                             flexWrap: "wrap", display: "flex", justifyContent: "space-between",
                             zIndex: 1, padding: 10, fontFamily: "'Manrope', serif"
                         }}>
-                            <span>{ locale == 'en' ? item?.en_title : item?.vi_title}</span>
+                            <span>{ locale == 'en-US' ? item?.en_title : item?.vi_title}</span>
                             <span>400.000$</span>
                         </div>
                        
-                        <Box style={{ flex: 1, minWidth: 'max(330px, 33vw)', minHeight:'max(330px, 33vw)', position: "relative" }} css={{
+                        <Box style={{ flex: 1, minWidth: 'max(320px, 33vw)', minHeight:'max(320px, 33vw)', position: "relative" }} css={{
                             '& .img_front:hover': {
                                 opacity:0,
                                 transition:'0.2s ease opacity',
@@ -141,7 +151,7 @@ export default function Page({ data }) {
                            
                             transition:'0.2s ease opacity'
                         }}>
-                            <Image className='img_front' alt='logo' fill src={item?.images[1]?.url} />
+                            <Image className='img_front' alt='logo' fill  src={item?.images[1]?.url} />
                             <Image className='img_front' alt='logo' fill src={item?.images[0]?.url} />
                             
                         </Box>
@@ -184,8 +194,8 @@ export async function getStaticPaths() {
     let paths = [];
 
     categories.forEach((item, i) => {
-        paths.push({ params: { slug: item.slug }, locale: "en" })
-        paths.push({ params: { slug: item.slug }, locale: "vi" })
+        paths.push({ params: { slug: item.slug }, locale: "en-US" })
+        paths.push({ params: { slug: item.slug }, locale: "vi-VN" })
     })
 
 
@@ -194,8 +204,8 @@ export async function getStaticPaths() {
     return {
         paths: [
             ...paths,
-            { params: { slug: 'all' }, locale: 'en' },
-            { params: { slug: 'all' }, locale: 'vi' },
+            { params: { slug: 'all' }, locale: 'en-US' },
+            { params: { slug: 'all' }, locale: 'vi-VN' },
         ], fallback: false
     }
 }
