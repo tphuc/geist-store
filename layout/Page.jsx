@@ -127,13 +127,7 @@ export default function PageLayout({ children }) {
               SHOP
             </Link>
 
-            {/* <Link href={'/shop/category/all'} css={{ color: "#111" }}>
-            WALLET
-          </Link>
-
-          <Link href={'/about-us'} css={{ color: "#111" }}>
-            ABOUT
-          </Link> */}
+ 
 
 
 

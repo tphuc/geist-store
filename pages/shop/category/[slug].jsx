@@ -68,96 +68,144 @@ export default function Page({ data }) {
 
 
     return <>
-   
-  <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
 
-        {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
-        <Box css={{ position: "relative", }} >
-            <div style={{
-                position:"relative",
-                display: 'flex', fontFamily: "'Manrope', serif",
-                // paddingLeft: "4%",
+        <Box style={{ position: "relative", fontFamily: "'Lora', serif", }}>
 
-                zIndex: 10, background: sand.sand4,
-                padding:5,
-                
+            {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
+            <Box css={{ position: "relative", }} >
+                <div style={{
+                    position: "relative",
+                    display: 'flex', fontFamily: "'Manrope', serif",
+                    // paddingLeft: "4%",
 
-                borderBottom: `1px solid ${sand.sand11}`,
-                // paddingTop: '0.5em', paddingBottom: '0.5em', 
-                flexDirection: 'row', alignItems: 'center',
-                gap:"0.5em",
-                
-            }}>
-                <StyledLink href={{
-                    pathname: '/shop/category/all'
-                }} style={{
-                    padding: "5px 15px",
-                    // borderLeft: "1px solid #111",
+                    zIndex: 10, background: sand.sand4,
+                    padding: 5,
 
-                    border:  slug == 'all' ? `1px solid #333`:`none`,
-                    borderRadius:20
-                    // borderRadius: 50
-                }}>All</StyledLink>
-                <div style={{ display: "flex", flexDirection: "row", overflowX: "scroll", minWidth:"90vw", gap:'0.5em' }}>
-                    {
-                        categories?.map((item) => <StyledLink key={item?.id} href={{
-                            pathname: `/shop/category/${item.slug}`
-                        }} style={{
-                            padding: "5px 10px",
-                            whiteSpace: "nowrap",
-                            
-                            // background: item?.slug == slug ? sand.sand12 : sand.sand3,
-                            // color: item?.slug == slug ? 'white' : sand.sand12,
-                            
-                            border:  item?.slug == slug ? `1px solid #333`:`none`,
-                            borderRadius:20
 
-                            // borderRadius: 50
-                        }}>{item.title}</StyledLink>)
-                    }
+                    borderBottom: `1px solid ${sand.sand11}`,
+                    // paddingTop: '0.5em', paddingBottom: '0.5em', 
+                    flexDirection: 'row', alignItems: 'center',
+                    gap: "0.5em",
 
-                </div>
-            </div>
-            <Box style={{ position: "relative" }} css={{ scrollPaddingTop: 200 }}>
-                {/* <ImageSlides/> */}
-                <Box style={{
-                    display: "grid", gap: 1,
-                    background:sand.sand3, 
-                    gridTemplateColumns: "repeat(auto-fill, minmax(320px, 33vw))"
                 }}>
-                    {products?.map((item, id) => <div key={item?.id} style={{ position: 'relative', boxShadow: `0px 0px 0px 1px ${sand.sand11}`, }}>
-                    <StyledLink href={`/product/${item.slug}`}>
-                        <div style={{
-                            // position:"sticky",
-                            // top:78,
-                            cursor:'pointer',
-                            position:"relative",
-                            borderBottom: `1px solid ${sand.sand11}`,
-                            width: "100%",
-                            background: gray.gray4,
-                            flexWrap: "wrap", display: "flex", justifyContent: "space-between",
-                            zIndex: 1, padding: 10, fontFamily: "'Manrope', serif"
-                        }}>
-                            <span>{ locale == 'en-US' ? item?.en_title : item?.vi_title}</span>
-                            <span>400.000$</span>
-                        </div>
-                       
-                        <Box style={{ flex: 1, minWidth: 'max(320px, 33vw)', minHeight:'max(320px, 33vw)', position: "relative" }} css={{
-                            '& .img_front:hover': {
-                                opacity:0,
-                                transition:'0.2s ease opacity',
+                    <StyledLink href={{
+                        pathname: '/shop/category/all'
+                    }} style={{
+                        padding: "5px 15px",
+                        // borderLeft: "1px solid #111",
 
-                            },
-                           
-                            transition:'0.2s ease opacity'
-                        }}>
-                            <Image className='img_front' alt='logo' fill  src={item?.images[1]?.url} />
-                            <Image className='img_front' alt='logo' fill src={item?.images[0]?.url} />
-                            
-                        </Box>
-                        </StyledLink>
+                        border: slug == 'all' ? `1px solid #333` : `none`,
+                        borderRadius: 20
+                        // borderRadius: 50
+                    }}>All</StyledLink>
+                    <div style={{ display: "flex", gap: '0.5em' }}>
+                        {
+                            categories?.map((item) => <StyledLink key={item?.id} href={{
+                                pathname: `/shop/category/${item.slug}`
+                            }} style={{
+                                padding: "5px 10px",
+                                whiteSpace: "nowrap",
 
-                    </div>)}
+                                // background: item?.slug == slug ? sand.sand12 : sand.sand3,
+                                // color: item?.slug == slug ? 'white' : sand.sand12,
+
+                                border: item?.slug == slug ? `1px solid #333` : `none`,
+                                borderRadius: 20
+
+                                // borderRadius: 50
+                            }}>{item.title}</StyledLink>)
+                        }
+
+                    </div>
+                </div>
+                <Box style={{ position: "relative" }} css={{ scrollPaddingTop: 200 }}>
+                    {/* <ImageSlides/> */}
+                    <Box style={{
+                        display: "flex", gap: 1,
+                        width: "100vw",
+                        flexWrap: "wrap",
+                        background: sand.sand4,
+
+
+
+                    }} >
+                        {products?.map((item, id) => <Box key={item?.id} style={{ boxSizing: "border-box", position: 'relative', width: 'auto', background: "black",  boxShadow: `0px 0px 0px 1px ${sand.sand11}`, }}
+
+                        >
+
+                            <div style={{
+                                // position:"sticky",
+                                // top:78,
+                                cursor: 'pointer',
+                                position: "relative",
+                                borderBottom: `1px solid ${sand.sand11}`,
+                                width: "100%",
+
+                                background: sand.sand4,
+                                flexWrap: "wrap", display: "flex", justifyContent: "space-between",
+                                zIndex: 1, padding: 10, fontFamily: "'Manrope', serif"
+                            }}>
+                                <span>{locale == 'en-US' ? item?.en_title : item?.vi_title}</span>
+                                <span>400.000$</span>
+                            </div>
+                            <StyledLink href={`/product/${item.slug}`}>
+                            <Box style={{ position: "relative", boxSizing: "border-box" }} css={{
+
+                                    '@media screen and (max-width: 600px)': {
+                                        width: "100vw",
+                                        height: "100vw"
+                                    },
+
+                                    '@media screen and (min-width: 768px)': {
+                                        width: "calc(50vw - 1px)",
+                                        height: "50vw"
+                                    },
+
+                                    '@media screen and (min-width: 1200px)': {
+                                        width: "33vw",
+                                        height: "33vw"
+                                    },
+
+                                    '& > .hoverfade': {
+
+                                        transition: "0.4s ease-in-out opacity"
+                                    },
+                                    '&:hover > .hoverfade': {
+                                        opacity: 0,
+                                        transition: "0.4s ease-in-out opacity"
+                                    }
+                                }
+                            } >
+
+
+
+
+                                    <Image
+
+                                        alt='img'
+                                        src={item?.images[1]?.url}
+                                        width={320}
+                                        height={320}
+                                        style={{
+                                            zIndex: 10,
+                                            objectFit: "cover",
+                                            width: '100%',
+                                            height: 'auto',
+
+                                        }}
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                    <Image
+                                        className='hoverfade'
+                                        alt='img'
+                                        src={item?.images[0]?.url}
+                                        fill
+                                    />
+                                </Box>
+
+                            </StyledLink>
+
+                        </Box>)}
                 </Box>
 
             </Box>
@@ -167,9 +215,9 @@ export default function Page({ data }) {
             <Footer />
         </Box>
 
-       
+
     </Box>
-  
+
     </>;
 }
 

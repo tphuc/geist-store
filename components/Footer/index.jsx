@@ -39,7 +39,7 @@ const Button = styled('button', {
 export default function Footer() {
     const t = useTrans()
     return <Box style={{ display: "flex",  background: sand.sand3, flexDirection: "row", borderTop: `1px solid ${sand.sand11}`, borderBottom: "1px solid #110", flexWrap: "wrap-reverse", color:mauveDark.mauve1 }}>
-        <Box style={{ flex: 1, padding:"2% 4%", borderRight: "1px solid #110", minWidth: 300 }}>
+        <Box style={{ flex: 1, padding:"2% 4%",  minWidth: 320 }}>
             <Box style={{
 
                 display: "grid",
