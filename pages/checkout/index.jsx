@@ -452,7 +452,7 @@ export default function Page({
 
                                 // let totalUSD = await convertCurrency(totalPrice, currencyCodeByShippingCountry(), 'USD')
                                 let amount = totalUSD + parseFloat(shippingUSD)
-                                let item_total = totalUSD?.toFixed(2)
+            
                                 let _data = {
                                     description: "Order from geiszt.com",
                                     intent: 'CAPTURE',
@@ -471,10 +471,10 @@ export default function Page({
                                             },
                                             amount: {
                                                 currency_code: 'USD',
-                                                value: amount,
+                                                value: amount?.toFixed(2),
                                                 breakdown: {
                                                     item_total: {
-                                                        value: item_total,
+                                                        value: totalUSD?.toFixed(2),
                                                         currency_code: 'USD'
                                                     },
                                                     shipping: {
