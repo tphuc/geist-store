@@ -446,10 +446,13 @@ export default function Page({
                                     }
                                 }))
 
+                            
+
                                 let shippingUSD = await convertCurrency(getShippingPrice(), currencyCodeByShippingCountry(), 'USD')
 
                                 // let totalUSD = await convertCurrency(totalPrice, currencyCodeByShippingCountry(), 'USD')
                                 let amount = totalUSD + parseFloat(shippingUSD)
+                                let item_total = totalUSD?.toFixed(2)
                                 let _data = {
                                     description: "Order from geiszt.com",
                                     intent: 'CAPTURE',
@@ -471,7 +474,7 @@ export default function Page({
                                                 value: amount,
                                                 breakdown: {
                                                     item_total: {
-                                                        value: totalUSD,
+                                                        value: item_total,
                                                         currency_code: 'USD'
                                                     },
                                                     shipping: {
@@ -485,6 +488,7 @@ export default function Page({
                                         }
                                     ],
                                 }
+                                console.log(data)
                                 setPurchaseData(_data)
                                 return await actions.order.create(_data);
                             }}
