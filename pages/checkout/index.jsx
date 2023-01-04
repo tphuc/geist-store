@@ -488,7 +488,7 @@ export default function Page({
                                         }
                                     ],
                                 }
-                                console.log(data)
+                                console.log(_data)
                                 setPurchaseData(_data)
                                 return await actions.order.create(_data);
                             }}
