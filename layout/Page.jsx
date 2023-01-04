@@ -2,7 +2,7 @@
 import { styled } from "@stitches/react";
 import Box from "components/Box";
 import Link from "components/Link";
-import { gray, san, sand, slate } from "@radix-ui/colors";
+import { gray, san, sand, sky, slate, yellow } from "@radix-ui/colors";
 import { IconArrowRight, IconCross, IconMinus, IconPlus, IconShoppingCart, IconX } from '@tabler/icons'
 import { useCart } from "react-use-cart";
 import { useShoppingCart } from "use-shopping-cart";
@@ -17,6 +17,7 @@ import { useShippingCountry } from "hooks/useShippingCountry";
 import { Popover, PopoverContent, PopoverTrigger } from "components/Popover";
 import { PopoverPortal } from "@radix-ui/react-popover";
 import getSymbolFromCurrency from 'currency-symbol-map'
+import React from "react";
 
 
 const DialogOverlay = styled(Dialog.Overlay, {
@@ -45,7 +46,7 @@ const DialogContent = styled(Dialog.Content, {
 const Button = styled('button', {
   all: "unset",
   outline: 'none',
-  background: slate.slate12,
+  background: gray.gray12,
   color: slate.slate1,
   height: 35,
   display: "inline-flex",
@@ -53,7 +54,15 @@ const Button = styled('button', {
   alignItems: "center",
   fontFamily: "'Manrope', serif",
   padding: "10px 10px",
-  cursor: 'pointer'
+  cursor: 'pointer',
+  transition:"0.4s ease all",
+  '&:hover': {
+    background: sand.sand6,
+    color: gray.gray12,
+    boxShadow: `0 0 0 1px ${gray.gray12}`,
+    transition:"0.4s ease all",
+  }
+
 })
 
 export default function PageLayout({ children }) {
@@ -62,15 +71,44 @@ export default function PageLayout({ children }) {
     cartCount,
     cartDetails,
     formattedTotalPrice,
+    totalPrice,
+    currency,
+    changeCurrency,
     decrementItem,
     incrementItem
   } = useShoppingCart();
+
+
 
   const router = useRouter();
   const t = useTrans();
 
   const { countryCode, setCountryCode } = useShippingCountry();
   const { data: countries } = usefetchCountries();
+
+  const priceNumber = React.useCallback((data) => {
+    let priceByCountry = data?.prices?.find((item) => item.country.code == countryCode)
+
+
+    if (priceByCountry)
+        return priceByCountry.value
+    else {
+        return data?.defaultPrice
+    }
+
+}, [countryCode])
+
+const currentCurrencyCode = React.useCallback((data) => {
+    let priceByCountry = data?.prices?.find((item) => item.country.code == countryCode)
+
+
+    if (priceByCountry)
+        return priceByCountry.currencyCode
+    else {
+        return data?.defaultCurrencyCode
+    }
+
+}, [countryCode])
 
 
 
@@ -127,24 +165,25 @@ export default function PageLayout({ children }) {
               SHOP
             </Link>
 
- 
+
 
 
 
             <Popover>
               <PopoverTrigger asChild>
-                <span style={{ fontSize: '0.9em', border:".5px solid #aaa", background: gray.gray5, padding: '2px 8px', borderRadius: 50 }}>{countryCode} <span style={{ color: sand.sand11 }}>{getSymbolFromCurrency(countries?.find(i => i.code == countryCode)?.paymentCurrencyCode)}{countries?.find(i => i.code == countryCode)?.paymentCurrencyCode}</span></span>
+                <span style={{ fontSize: '0.9em', background: gray.gray5, padding: '2px 8px', borderRadius: 50 }}>{countryCode} <span style={{ color: sand.sand11 }}>{getSymbolFromCurrency(countries?.find(i => i.code == countryCode)?.paymentCurrencyCode)}{countries?.find(i => i.code == countryCode)?.paymentCurrencyCode}</span></span>
               </PopoverTrigger>
               <PopoverPortal>
                 <PopoverContent align="left" style={{ zIndex: 100, display: "flex", flexDirection: "column", gap: 5, minWidth: 80, borderRadius: 0, border: "1px solid #333" }}>
                   <span style={{ fontWeight: 300 }}>Shipping to</span>
-                  <div style={{ display: "flex",  fontSize: 14,  borderRadius: 50, padding: "0px 20px", color: sand.sand11, background: sand.sand4, alignItems: "center" }}>
+                  <div style={{ display: "flex", fontSize: 14, borderRadius: 50, padding: "0px 20px", color: sand.sand11, background: sand.sand4, alignItems: "center" }}>
                     {countryCode && <img src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${countryCode}.svg`} alt="." style={{ width: 20, height: 'auto' }} ></img>}
-                    <NativeSelect id='lang-select' 
-                    
-                    style={{ color: sand.sand11, border: 'none', textDecoration: "underline", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, background: 'none' }} defaultValue={countryCode} required onChange={(val) =>
-                      setCountryCode(val)
-                    } placeholder="">
+                    <NativeSelect id='lang-select'
+
+                      style={{ color: sand.sand11, border: 'none', textDecoration: "underline", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, background: 'none' }} defaultValue={countryCode} required onChange={(val) => {
+                        setCountryCode(val);
+                        changeCurrency(countries?.find(item => item.code == val)?.paymentCurrencyCode || 'USD')
+                      }} placeholder="">
 
                       {countries?.map((item, id) => <option selected={countryCode == item.code} value={item.code} key={id}>
                         <span style={{}}>{item.name} ({item.paymentCurrencyCode})</span>
@@ -155,12 +194,13 @@ export default function PageLayout({ children }) {
                   <span style={{ fontWeight: 300 }}>Language</span>
 
                   <div style={{ display: "flex", fontSize: 14, borderRadius: 50, padding: "0px 10px", color: sand.sand11, background: sand.sand4, alignItems: "center" }}>
-                    <NativeSelect defaultValue={router.locale} style={{ color: sand.sand11, border: 'none', display: "flex",  fontSize: 16, background: 'none' }} required onChange={(val) => {
-                      if(val == 'vi-VN'){
-                        setCountryCode('VN')
-                      }
-                      router.push(router.asPath, null, { locale: val })
-                    }} placeholder="language">
+                    <NativeSelect defaultValue={router.locale} style={{ color: sand.sand11, border: 'none', display: "flex", fontSize: 16, background: 'none' }} required onChange={(val) => {
+                      // if (val == 'vi-VN') {
+                      //   setCountryCode('VN')
+                      // }
+                      router.push(router.asPath, null, { locale: val, shallow: true })
+                    }} 
+                    placeholder="language">
                       <option value={'en-US'} selected={router.locale == 'en-US'}>🇬🇧 English </option>
                       <option value={'vi-VN'} selected={router.locale == 'vi-VN'}>🇻🇳 Tiếng Việt </option>
                     </NativeSelect>
@@ -187,9 +227,10 @@ export default function PageLayout({ children }) {
             <Dialog.Portal>
               <DialogOverlay />
               <DialogContent>
-                <Box style={{ display: "flex", backgroundColor: gray.gray2, fontFamily: "'Manrope', serif", flexDirection: "column", height: "100%" }}>
+                <Box style={{ display: "flex", backgroundColor: sand.sand3, fontFamily: "'Manrope', serif", flexDirection: "column", height: "100%" }}>
+
                   <Dialog.Close asChild>
-                    <ButtonIcon style={{ zIndex: 10, display: 'inline-flex', cursor: "pointer", position: "absolute", top: 5, right: 5 }}>
+                    <ButtonIcon style={{ zIndex: 10, display: 'inline-flex', cursor: "pointer", position: "absolute", top: 10, right: 10 }}>
                       <IconX size={26} stroke={1.5} />
                     </ButtonIcon>
                   </Dialog.Close>
@@ -201,11 +242,13 @@ export default function PageLayout({ children }) {
                     </div>
 
                     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+
                       {Object.values(cartDetails)?.length == 0 ? <div >
-                        <span style={{ color: sand.sand10 }}>Your cart is empty</span>
+                        <span style={{ color: sand.sand10 }}> Your cart is empty </span>
                         <br />
                         <StyledLink style={{ display: "flex", alignItems: 'center', fontSize: '1.2em' }} href='/shop/category/all'>Start shopping now <IconArrowRight stroke={1} /></StyledLink>
                       </div> : null}
+
                       {Object.values(cartDetails)?.map((item, id) => <Box style={{
                         display: "flex",
                         flexDirection: "row",
@@ -214,34 +257,42 @@ export default function PageLayout({ children }) {
                         paddingTop: 10,
                         overflow: "hidden"
                       }} key={item.id}>
-                        <Box style={{ flex: 1, maxWidth: 100, minWidth: 50 }}>
-                          <img alt='' style={{ backgroundColor: sand.sand4, border: "1px solid #111", width: "100%" }} src={item?.image}></img>
+
+                        <Box style={{ flex: 1, maxWidth: 100, minWidth: 50,  }}>
+                          <img alt='' style={{ backgroundColor: sand.sand4,borderRadius:4, border: "1px solid #111", width: "100%" }} src={item?.image}></img>
                         </Box>
+
                         <Box style={{ flex: 5, display: "flex", flexDirection: "column", gap: 2, }}>
-                          <h4 style={{ margin: 0, whiteSpace: 'nowrap', }}>{item?.name}</h4>
+                          <h4 style={{ margin: 0, whiteSpace: 'nowrap', }}>{router.locale === 'vi-VN' ? item?.product_data?.vi_title : item?.product_data?.en_title}</h4>
                           <p style={{ margin: 0, whiteSpace: 'nowrap' }}>{item?.product_data?.color}</p>
 
-
-                          <Box style={{ display: "inline-flex", width: 80, justifyContent: "space-between", alignItems: 'center', cursor: "pointer", gap: 5, background: sand.sand3, }}>
-                            <ButtonIcon onClick={() => incrementItem(item?.id)} style={{ padding: 5, background: gray.gray5 }}><IconPlus size={16} /></ButtonIcon>
+                          <Box style={{ display: "inline-flex", width: 80, justifyContent: "space-between", alignItems: 'center', cursor: "pointer", gap: 5, }}>
+                            <ButtonIcon onClick={() => decrementItem(item?.id)} style={{ padding: 5, borderRadius:50, background: gray.gray6 }}><IconMinus  size={16} /></ButtonIcon>
                             <p style={{ margin: 0, fontSize: 15 }}>{item?.quantity}</p>
-                            <ButtonIcon onClick={() => decrementItem(item?.id)} style={{ padding: 5, background: gray.gray5 }}><IconMinus size={16} /></ButtonIcon>
+                            <ButtonIcon onClick={() => incrementItem(item?.id)} style={{ padding: 5, borderRadius:50, background: gray.gray6 }}><IconPlus size={16} /></ButtonIcon>
+                            
                           </Box>
-                          <span style={{ marginTop: 5 }}>{item?.formattedValue}</span>
-                        </Box>
 
+                          <span style={{ marginTop: 5 }}>{new Intl.NumberFormat(router.locale, { style: 'currency', currency: currentCurrencyCode(item?.product_data) }).format(item.value)}</span>
+
+                        </Box>
                       </Box>)}
+
+                     
+
 
                     </div>
 
 
                   </Box>
-                  <Box style={{ display: "flex", background: sand.sand1, borderTop: "1px solid #222", alignItems: "center", gap: 16, padding: 4 }}>
-                    <span style={{ paddingLeft: 10 }}>Total: {formattedTotalPrice}</span>
-                    <Button style={{ flex: 1, borderRadius: 6, gap: 5 }} >
+                  <Box style={{ background: sand.sand1, borderTop: "1px solid #222", gap: 16, padding:4,  }}>
+                    {/* <span style={{ paddingLeft: 10 }}>Total: {formattedTotalPrice}</span> */}
+                    <StyledLink   href='/checkout'>
+                    <Button style={{ flex: 1, boxSizing:"border-box", minHeight:50,  width:"100%",  borderRadius: 6, gap: 5 }} >
                       <span>Go to checkout</span>
                       <IconArrowRight stroke={1.5} />
                     </Button>
+                    </StyledLink>
                   </Box>
 
                 </Box>
@@ -252,11 +303,11 @@ export default function PageLayout({ children }) {
           </Dialog.Root>
         </nav>
         {/* <div style={{ height: 48, position: "relative" }}></div> */}
-        
+
       </div>
 
       {children}
-    
+
       <div style={{ position: 'absolute', bottom: '1em', left: '4%', zIndex: 100 }}>
         <NativeSelect defaultValue={router.locale} required onChange={(val) => router.push(router.asPath, null, { locale: val })} placeholder="language">
           <option value={'en-US'} selected={router.locale == 'en-US'}>🇬🇧 English </option>

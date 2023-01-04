@@ -21,6 +21,7 @@ import { useCart } from 'react-use-cart';
 import { useShoppingCart } from 'use-shopping-cart';
 import { baseURL } from 'fetch.config';
 import Footer from 'components/Footer';
+import { useShippingCountry } from 'hooks/useShippingCountry';
 
 
 
@@ -123,39 +124,50 @@ export default function Page({ data }) {
     } = useShoppingCart();
     const { locale } = useRouter()
 
+
+
+    const { countryCode } = useShippingCountry();
+
     const [selected, setSelected] = useState(data.variants[0])
 
 
-    const getPrice = React.useMemo(() => {
-        let priceByCountry = data?.prices?.find((item) => item.matchLocale === locale)
+    const priceNumber = React.useMemo(() => {
+        let priceByCountry = data?.prices?.find((item) => item.country.code == countryCode)
+
 
         if (priceByCountry)
-            return new Intl.NumberFormat(priceByCountry?.matchLocale || 'en-US', { style: 'currency', currency: priceByCountry.currencyCode ? priceByCountry?.currencyCode : data?.defaultCurrencyCode }).format(priceByCountry.value)
+            return priceByCountry.value
         else {
-            return new Intl.NumberFormat('en-US', { style: 'currency', currency: data.defaultCurrencyCode }).format(data.defaultPrice)
+            return data?.defaultPrice
         }
 
+    }, [countryCode])
 
-    }, [locale])
+    const currentCurrencyCode = React.useMemo(() => {
+        let priceByCountry = data?.prices?.find((item) => item.country.code == countryCode)
+
+
+        if (priceByCountry)
+            return priceByCountry.currencyCode
+        else {
+            return data?.defaultCurrencyCode
+        }
+
+    }, [countryCode])
+
+
 
     const getSalePrice = React.useMemo(() => {
-        let priceByCountry = data?.prices?.find((item) => item.matchLocale === locale)
+        let priceByCountry = data?.prices?.find((item) => item.country.code == countryCode)
 
-        if (priceByCountry) {
-            if (priceByCountry.saleValue > 0)
-                return new Intl.NumberFormat(priceByCountry?.matchLocale || 'en-US', { style: 'currency', currency: priceByCountry.currencyCode ? priceByCountry?.currencyCode : data?.defaultCurrencyCode }).format(priceByCountry.saleValue)
-            return null
-        }
-
-
+        if (priceByCountry)
+            return priceByCountry.saleValue
         else {
-            if (data?.saleValue)
-                return new Intl.NumberFormat('en-US', { style: 'currency', currency: data.defaultCurrencyCode }).format(data.saleValue)
-            return null
+            return data?.saleValue
         }
 
 
-    }, [locale])
+    }, [countryCode])
 
 
 
@@ -230,8 +242,8 @@ export default function Page({ data }) {
                 </Box>
                 <Box css={{ position: 'relative', flex: 1, display: "flex", flexDirection: "column", justifyContent: "stretch", padding: '4%', boxSizing: 'border-box', }}>
 
-                    {getSalePrice && <h3 style={{ fontSize: "1em", color: sand.sand11, fontWeight: 300, textDecoration: "line-through", padding: 0, margin: 0 }}>{getSalePrice} </h3>}
-                    <span > Price: {getPrice}</span>
+                    {getSalePrice && <h3 style={{ fontSize: "1em", color: sand.sand11, fontWeight: 300, textDecoration: "line-through", padding: 0, margin: 0 }}>{new Intl.NumberFormat(locale, { style: 'currency', currency: currentCurrencyCode }).format(getSalePrice)} </h3>}
+                    <span > Price: { new Intl.NumberFormat(locale, { style: 'currency', currency: currentCurrencyCode }).format(priceNumber) }</span>
                     <br />
                     <span style={{ fontWeight: 300, padding: 0, margin: 0 }}>Variant: {selected.title}</span>
 
@@ -256,17 +268,24 @@ export default function Page({ data }) {
 
                     <br />
                     <Button
-                        onClick={() => addItem({
-                            name: data.title,
-                            description: 'Yummy yellow fruit',
-                            id: selected?.id,
-                            price: 400,
-                            currency: 'USD',
-                            image: selected?.url
+                        onClick={() => {
+
+                            addItem({
+                            name: locale === 'vi_VN' ? data?.vi_title : data?.en_title,
+                            // description: 'Yummy yellow fruit',
+                            id: `${data?.id}_${selected?.id}`,
+                            price: priceNumber,
+                            currency: currentCurrencyCode,
+                            image: selected?.imageUrl
                         }, {
                             count: 1,
-                            product_metadata: { color: selected.color },
-                        })}
+                            price_metadata: data.prices,
+                            product_metadata: {
+                                ...data,
+                                selectedVariant: selected
+                            },
+                        }) 
+                    }}
                         css={{ display: "flex", padding: "4px 20px", gap: 10, borderRadius: 8 }}>
                         Add to cart
                         <IconShoppingCart size={18} />

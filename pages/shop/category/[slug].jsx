@@ -129,7 +129,7 @@ export default function Page({ data }) {
 
 
                     }} >
-                        {products?.map((item, id) => <Box key={item?.id} style={{ boxSizing: "border-box", position: 'relative', width: 'auto', background: "black",  boxShadow: `0px 0px 0px 1px ${sand.sand11}`, }}
+                        {products?.map((item, id) => <Box key={item?.id} style={{ boxSizing: "border-box", position: 'relative', width: 'auto',  boxShadow: `0px 0px 0px 1px ${sand.sand11}`, }}
 
                         >
 

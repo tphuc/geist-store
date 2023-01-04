@@ -6,6 +6,7 @@ const ButtonIcon = styled('div', {
     display:'flex', 
     justifyContent:"center", 
     alignItems:'center',
+    cursor:"pointer",
 })
 
 export default ButtonIcon;

@@ -49,18 +49,18 @@ const ImageSlides = ({ css, ...props }) => {
             'scroll-behavior': 'smooth',
             '-webkit-overflow-scrolling': 'touch',
             scrollbarWidth: 0,
-            // '&::-webkit-scrollbar': {
-            //     width: 0,
-            //     height: 0,
-            // },
+            '&::-webkit-scrollbar': {
+                width: 0,
+                height: 0,
+            },
 
-            // '&::-webkit-scrollbar-thumb': {
-            //     background: sand.sand10,
-            //     borderRadius: 0
-            // },
-            // '&::-webkit-scrollbar-track': {
-            //     background: sand.sand7
-            // }
+            '&::-webkit-scrollbar-thumb': {
+                background: sand.sand10,
+                borderRadius: 0
+            },
+            '&::-webkit-scrollbar-track': {
+                background: sand.sand7
+            }
             // height: 320,
         }}>
             <Box
