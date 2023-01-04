@@ -12,9 +12,11 @@ export default function MyApp({ Component, pageProps }) {
     const getLayout = Component.getLayout || ((page) => page)
 
     return (
-        <PayPalScriptProvider options={{
-            "client-id": 'Af_ml170LjBF71oWJ-2HY6wqki3KYrEz2wUisjon7RVTIi5FwqVq9ylBX3hpuxVLVePYtZPaOQ48AzXR',
+        <PayPalScriptProvider  options={{
+            "client-id": process.env.PAYPAL_CLIENT_ID,
+        
             // debug: true
+            
 
         }} >
              <CartProvider>
