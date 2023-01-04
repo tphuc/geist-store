@@ -276,20 +276,20 @@ export default function Page({
 
         let order = await actions.order.capture()
         console.log(order)
-        await axiosInstance.post('/api/v1/order/create', {
-            paymentMethod:'paypal',
-            paymentId: order.id,
-            name: 
-            email,
-            phone,
-            items,
-            shippingAddress,
-            itemsPrice,
-            shippingPrice,
-            totalPrice,
-            currency,
-            purchase_data
-        })
+        // await axiosInstance.post('/api/v1/order/create', {
+        //     paymentMethod:'paypal',
+        //     paymentId: order.id,
+        //     name: 
+        //     email,
+        //     phone,
+        //     items,
+        //     shippingAddress,
+        //     itemsPrice,
+        //     shippingPrice,
+        //     totalPrice,
+        //     currency,
+        //     purchase_data
+        // })
     }
 
 
@@ -462,7 +462,7 @@ export default function Page({
                                                 },
                                                 address: {
                                                     admin_area_2: "Hanoi",
-                                                  country_code: "VN"
+                                                    country_code: "VN"
                                                 },
                                                 
                                             },
