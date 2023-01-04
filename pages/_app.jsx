@@ -5,6 +5,7 @@ import { ShippingCountryProvider } from 'hooks/useShippingCountry'
 import 'styles/globals.css'
 import { CartProvider } from 'use-shopping-cart'
 
+console.log(process.env)
 
 
 export default function MyApp({ Component, pageProps }) {
@@ -13,7 +14,7 @@ export default function MyApp({ Component, pageProps }) {
 
     return (
         <PayPalScriptProvider  options={{
-            "client-id": process.env.PAYPAL_CLIENT_ID,
+            "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
         
             // debug: true
             
