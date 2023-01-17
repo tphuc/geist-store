@@ -11,5 +11,8 @@ module.exports = {
         hostname: 'ik.imagekit.io',
       },
     ],
+  },
+  env: {
+    PAYPAL_API_KEY:''
   }
 }

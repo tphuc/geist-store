@@ -17,6 +17,8 @@ import Footer from 'components/Footer';
 import { axiosInstance } from 'axios.config';
 import { baseURL } from 'fetch.config';
 import React from 'react';
+import useTrans from 'hooks/useTrans';
+import { useShippingCountry } from 'hooks/useShippingCountry';
 
 
 
@@ -56,13 +58,40 @@ const Button = styled('button', {
 
 
 export default function Page({ data }) {
+    const trans = useTrans();
     const router = useRouter()
     const { locale } = router;
     const { slug } = router.query
 
     const { categories, products } = data;
 
-    // console.log(products)
+    const { countryCode } = useShippingCountry();
+
+
+    const priceNumber = React.useCallback((data) => {
+        let priceByCountry = data?.prices?.find((item) => item.country.code == countryCode)
+
+
+        if (priceByCountry)
+            return priceByCountry.value
+        else {
+            return data?.defaultPrice
+        }
+
+    }, [countryCode])
+    
+
+    const currentCurrencyCode = React.useCallback((data) => {
+        let priceByCountry = data?.prices?.find((item) => item.country.code == countryCode)
+
+
+        if (priceByCountry)
+            return priceByCountry.currencyCode
+        else {
+            return data?.defaultCurrencyCode
+        }
+
+    }, [countryCode])
 
 
 
@@ -73,6 +102,7 @@ export default function Page({ data }) {
 
             {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
             <Box css={{ position: "relative", }} >
+                {/* TODO add translation */}
                 <div style={{
                     position: "relative",
                     display: 'flex', fontFamily: "'Manrope', serif",
@@ -92,12 +122,12 @@ export default function Page({ data }) {
                         pathname: '/shop/category/all'
                     }} style={{
                         padding: "5px 15px",
-                        // borderLeft: "1px solid #111",
+             
 
                         border: slug == 'all' ? `1px solid #333` : `none`,
                         borderRadius: 20
                         // borderRadius: 50
-                    }}>All</StyledLink>
+                    }}> {trans.shop?.all} </StyledLink>
                     <div style={{ display: "flex", gap: '0.5em' }}>
                         {
                             categories?.map((item) => <StyledLink key={item?.id} href={{
@@ -146,7 +176,7 @@ export default function Page({ data }) {
                                 zIndex: 1, padding: 10, fontFamily: "'Manrope', serif"
                             }}>
                                 <span>{locale == 'en-US' ? item?.en_title : item?.vi_title}</span>
-                                <span>400.000$</span>
+                                <span>{ new Intl.NumberFormat(locale, { style: 'currency', currency: currentCurrencyCode(item) }).format(priceNumber(item)) }</span>
                             </div>
                             <StyledLink href={`/product/${item.slug}`}>
                             <Box style={{ position: "relative", boxSizing: "border-box" }} css={{

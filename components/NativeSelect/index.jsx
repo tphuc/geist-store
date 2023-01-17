@@ -13,7 +13,8 @@ const Select = styled('select', {
     display:"flex",
     alignItems:"center",
     background: gray.gray5,
-    color: gray.gray10,
+    // color: gray.gray10,
+    color: gray.gray11,
     // border:"1px solid #333",
    
     borderRadius:4,

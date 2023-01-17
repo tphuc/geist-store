@@ -112,7 +112,7 @@ export default function Page(props) {
                        
                         <AnimatedTitle style={{margin:0, maxWidth:"100vw", overflow:"hidden", }}  text={trans.home.welcome} ></AnimatedTitle>
                         <StyledLink href={'/shop/category/all'} style={{fontSize:"medium", marginTop:"2vh"}}>
-                            <Button>Shop all</Button>
+                            <Button>{trans?.common?.shopall}</Button>
                         </StyledLink>
                        
                     </Box>

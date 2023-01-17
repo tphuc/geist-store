@@ -23,3 +23,64 @@ export const usefetchCountries = () => {
         error
     }
 }
+
+
+
+export const useFetchStatesByCountry = (countryCode) => {
+    var headers = new Headers();
+    headers.append("X-CSCAPI-KEY", 'enc4cEFZckFhc0NLcFNIbmRITFF0bEpsZWRDOGlPYUlHejUxeXdPSA==');
+    
+    var requestOptions = {
+     method: 'GET',
+     headers: headers,
+     redirect: 'follow'
+    };
+    
+
+
+    const { data, error } = useSWR(
+        `https://api.countrystatecity.in/v1/countries/${countryCode}/states`,
+        async (url) => { 
+            let res = await fetch(url, requestOptions).then(res => res.json())
+            return res 
+        },
+        {
+            revalidateOnFocus: false,
+        }
+    );
+
+    return {
+        data,
+        error
+    }
+}
+
+
+export const useFetchCityByStatesAndCountry = (countryCode) => {
+    var headers = new Headers();
+    headers.append("X-CSCAPI-KEY", 'enc4cEFZckFhc0NLcFNIbmRITFF0bEpsZWRDOGlPYUlHejUxeXdPSA==');
+    
+    var requestOptions = {
+     method: 'GET',
+     headers: headers,
+     redirect: 'follow'
+    };
+    
+
+
+    const { data, error } = useSWR(
+        `https://api.countrystatecity.in/v1/countries/${countryCode}/states`,
+        async (url) => { 
+            let res = await fetch(url, requestOptions).then(res => res.json())
+            return res 
+        },
+        {
+            revalidateOnFocus: false,
+        }
+    );
+
+    return {
+        data,
+        error
+    }
+}

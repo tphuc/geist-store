@@ -237,7 +237,7 @@ const currentCurrencyCode = React.useCallback((data) => {
                   <Box style={{ flex: 1, padding: "1em" }}>
 
                     <div style={{ display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                      <h2>Your cart</h2>
+                      <h2>{t.product?.yourCart}</h2>
                       <IconShoppingCart size={30} stroke={1.5} />
                     </div>
 
@@ -289,7 +289,7 @@ const currentCurrencyCode = React.useCallback((data) => {
                     {/* <span style={{ paddingLeft: 10 }}>Total: {formattedTotalPrice}</span> */}
                     <StyledLink   href='/checkout'>
                     <Button style={{ flex: 1, boxSizing:"border-box", minHeight:50,  width:"100%",  borderRadius: 6, gap: 5 }} >
-                      <span>Go to checkout</span>
+                      <span>{t.product?.goToCheckout}</span>
                       <IconArrowRight stroke={1.5} />
                     </Button>
                     </StyledLink>

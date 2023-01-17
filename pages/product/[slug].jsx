@@ -189,10 +189,14 @@ export default function Page({ data }) {
         {/* <h1 style={{fontSize:"5em", fontFamily:"'Lora', serif", marginBottom:"0.2em", fontWeight:400}}>Kydo</h1> */}
         <Box style={{ position: "relative", display: "flex", flexDirection: "row", flexWrap: "wrap" }} >
 
-            <Box style={{ background: sand.sand3, flex: 4, minWidth: 340, borderRight: '1px solid #111', }}>
-                <div style={{ position: "relative", maxHeight: "calc(100vh - 40px)", minHeight: '50vh' }}>
-                    <Image fill src={selected?.imageUrl} style={{ objectFit: 'contain' }} />
+            <Box style={{ background: sand.sand3, flex: 4, minWidth: 320, borderRight: '1px solid #111', }}>
+                {selected?.imageUrl && <div style={{ position: "relative", borderBottom: '1px solid #111', height: 'min(52vh, 100vw)', display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <Image fill
+                        style={{ objectFit: "contain" }}
+                        // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
+                        src={selected?.imageUrl} />
                 </div>
+                }
                 <Box css={{
                     '@media screen and (max-width: 600px)': {
                         display: "none"
@@ -202,7 +206,7 @@ export default function Page({ data }) {
                     <ResponsiveMasonry
                         columnsCountBreakPoints={{ 350: 1, 780: 1, 900: 2, 1200: 2 }}
                     >
-                        <Masonry gutter='1px' style={{ background: "#333", borderTop: `1px solid ${sand.sand11}` }} >
+                        <Masonry gutter='1px' style={{ background: "#555",  }} >
                             {
                                 data?.images?.map((item, id) => <Image
                                     key={id}
@@ -243,9 +247,9 @@ export default function Page({ data }) {
                 <Box css={{ position: 'relative', flex: 1, display: "flex", flexDirection: "column", justifyContent: "stretch", padding: '4%', boxSizing: 'border-box', }}>
 
                     {getSalePrice && <h3 style={{ fontSize: "1em", color: sand.sand11, fontWeight: 300, textDecoration: "line-through", padding: 0, margin: 0 }}>{new Intl.NumberFormat(locale, { style: 'currency', currency: currentCurrencyCode }).format(getSalePrice)} </h3>}
-                    <span > Price: { new Intl.NumberFormat(locale, { style: 'currency', currency: currentCurrencyCode }).format(priceNumber) }</span>
+                    <span > Price: {new Intl.NumberFormat(locale, { style: 'currency', currency: currentCurrencyCode }).format(priceNumber)}</span>
                     <br />
-                    <span style={{ fontWeight: 300, padding: 0, margin: 0 }}>Variant: {selected.title}</span>
+                    <span style={{ fontWeight: 300, padding: 0, margin: 0 }}>Variant: {selected?.title}</span>
 
                     <Box style={{ display: "flex", flexDirection: "row", gap: 5, marginTop: 5, }} >
                         {data?.variants?.map((item, id) => <Box
@@ -271,21 +275,21 @@ export default function Page({ data }) {
                         onClick={() => {
 
                             addItem({
-                            name: locale === 'vi_VN' ? data?.vi_title : data?.en_title,
-                            // description: 'Yummy yellow fruit',
-                            id: `${data?.id}_${selected?.id}`,
-                            price: priceNumber,
-                            currency: currentCurrencyCode,
-                            image: selected?.imageUrl
-                        }, {
-                            count: 1,
-                            price_metadata: data.prices,
-                            product_metadata: {
-                                ...data,
-                                selectedVariant: selected
-                            },
-                        }) 
-                    }}
+                                name: locale === 'vi_VN' ? data?.vi_title : data?.en_title,
+                                // description: 'Yummy yellow fruit',
+                                id: `${data?.id}_${selected?.id}`,
+                                price: priceNumber,
+                                currency: currentCurrencyCode,
+                                image: selected?.imageUrl
+                            }, {
+                                count: 1,
+                                price_metadata: data.prices,
+                                product_metadata: {
+                                    ...data,
+                                    selectedVariant: selected
+                                },
+                            })
+                        }}
                         css={{ display: "flex", padding: "4px 20px", gap: 10, borderRadius: 8 }}>
                         Add to cart
                         <IconShoppingCart size={18} />
@@ -297,12 +301,12 @@ export default function Page({ data }) {
                             <TabsTrigger value="tab3">Shipping</TabsTrigger>
                             {/* <TabsTrigger value="tab4">Reviews</TabsTrigger> */}
                         </TabsList>
-                        <TabsContent css={{ marginTop: 20, minHeight:300 }} value="tab1">
+                        <TabsContent css={{ marginTop: 20, minHeight: 300 }} value="tab1">
                             <div style={{ fontSize: '0.95em', color: sand.sand11, fontWeight: 300 }} dangerouslySetInnerHTML={{ __html: locale == 'vi-VN' ? data?.vi_description : data?.en_description }}>
 
                             </div>
                         </TabsContent>
-                        <TabsContent css={{ marginTop: 20, minHeight:300 }} value="tab3">
+                        <TabsContent css={{ marginTop: 20, minHeight: 300 }} value="tab3">
                             <div style={{ color: sand.sand11, fontSize: '0.95em', fontWeight: 300 }} >
                                 We offer regular or express shipping to most addresses worldwide. Shipping cost and delivery times are calculated at checkout.
                                 <br />Note: P.O. box deliveries will automatically be sent by regular shipping.
@@ -329,7 +333,7 @@ export default function Page({ data }) {
             <ResponsiveMasonry
                 columnsCountBreakPoints={{ 350: 1, 780: 1, 900: 2, 1200: 2 }}
             >
-                <Masonry gutter='1px' style={{ background: "#333", borderTop: `1px solid #333` }} >
+                <Masonry gutter='1px' style={{ background: "#555", borderTop: `1px solid #c1c1c1` }} >
                     {
                         data?.images?.map((item, id) => <Image
                             key={id}

@@ -26,15 +26,15 @@ export const RadioGroupIndicator = styled(RadioGroup.Indicator, {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
-    height: '100%',
+    width: 20,
+    height: 20,
     position: 'relative',
     '&::after': {
       content: '""',
       display: 'block',
       width: 12,
       height: 12,
-      borderRadius: '50%',
+      borderRadius: 50,
       backgroundColor: sky.sky11,
     },
   });
